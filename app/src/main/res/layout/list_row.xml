@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/textView_place_name"
         android:background="@drawable/rd_corners_list_row"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="0dp"
         android:paddingLeft="20dp"
         android:paddingTop="8dp"
@@ -31,13 +31,4 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_navigation_link"
-        app:layout_constraintStart_toEndOf="@+id/textView_place_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
 </androidx.constraintlayout.widget.ConstraintLayout>

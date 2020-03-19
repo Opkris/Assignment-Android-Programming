@@ -14,12 +14,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
-
-//        recyclerView_main.setBackgroundColor(Color.BLUE)
-
         recyclerView_main.layoutManager = LinearLayoutManager(this)
-//        recyclerView_main.adapter = MainAdapter()
 
         fetchJson()
 
@@ -30,12 +27,14 @@ class MainActivity : AppCompatActivity() {
     fun fetchJson() {
         println("Attempting to Fetch JSON")
 
-        val url = "https://api.letsbuildthatapp.com/youtube/home_feed"
-//        val url = "https://www.noforeignland.com/home/api/v1/places/"
+//        val placeId = 5039941851545600
+
+//        val url = "https://api.letsbuildthatapp.com/youtube/home_feed"
+        val url = "https://www.noforeignland.com/home/api/v1/places/"
+//        val url = "https://www.noforeignland.com/home/api/v1/place?id=" + placeId
 
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
-
 
         //enqueue make sure that every thing is going on in the background // another thread.
         client.newCall(request).enqueue(object: Callback {
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 val gson = GsonBuilder().create()
 
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
+//                val homeFeed = gson.fromJson(body, FromPlaceId::class.java)
 
                 runOnUiThread {
                     recyclerView_main.adapter = MainAdapter(homeFeed)

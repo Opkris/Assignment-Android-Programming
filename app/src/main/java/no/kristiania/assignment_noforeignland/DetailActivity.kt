@@ -1,17 +1,10 @@
 package no.kristiania.assignment_noforeignland
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_detail.view.*
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_detail.*
 import okhttp3.*
 import java.io.IOException
 
@@ -20,13 +13,11 @@ class DetailActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
-        recyclerView_main.layoutManager = LinearLayoutManager(this)
-//        recyclerView_main.adapter = DetailAdapter()
+        setContentView(R.layout.activity_detail)
+        recyclerView_detail.layoutManager = LinearLayoutManager(this)
 
-        val  navBarTitle = intent.getStringExtra(CustomViewHolder.VIDEO_TITLE_KEY)
+        val  navBarTitle = intent.getStringExtra(CustomViewHolder.FEATURE_TITLE_KEY)
         supportActionBar?.title = navBarTitle
-
 
 //        println(detailUrl)
 
@@ -35,12 +26,15 @@ class DetailActivity : AppCompatActivity(){
 
     }// end onCreate
 
-    private fun fetchJSON() {
-        val videoId = intent.getIntExtra(CustomViewHolder.VIDEO_ID_KEY,-1)
-        val detailUrl = "https://api.letsbuildthatapp.com/youtube/course_detail?id=" + videoId
+     fun fetchJSON() {
+        val placeId = intent.getLongExtra(CustomViewHolder.FEATURE_ID_KEY,-1)
+//         val placeId = 5039941851545600
 
+        val url = "https://www.noforeignland.com/home/api/v1/place?id=" + placeId
+
+        val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
-        val request = Request.Builder().url(detailUrl).build()
+
         client.newCall(request).enqueue(object: Callback {
 
             override fun onResponse(call: Call, response: Response) {
@@ -49,65 +43,52 @@ class DetailActivity : AppCompatActivity(){
 
                 val gson = GsonBuilder().create()
 
-                val courseLessons= gson.fromJson(body, Array<CourseLesson>::class.java)
+                val fromPlaceId= gson.fromJson(body, FromPlaceId::class.java)
 
                 runOnUiThread {
 
-                    recyclerView_main.adapter = DetailAdapter(courseLessons)
+                    recyclerView_detail.adapter = DetailAdapter(fromPlaceId)
                 }
 //                println(body)
 
             }
 
             override fun onFailure(call: Call, e: IOException) {
-
+                println("Something went wrong.....DetailActivity")
             }
         })
     }
 
-    private class DetailAdapter(val coursLessons: Array<CourseLesson>): RecyclerView.Adapter<DetailLessonViewHolder>(){
-
-        override fun getItemCount(): Int {
-            return coursLessons.size
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailLessonViewHolder {
-
-            val layoutInflater = LayoutInflater.from(parent.context)
-            val customView = layoutInflater.inflate(R.layout.activity_detail, parent, false)
-
-            return DetailLessonViewHolder(customView)
-        }
-
-        override fun onBindViewHolder(holder: DetailLessonViewHolder, position: Int) {
-
-            val courseLesson = coursLessons.get(position)
-
-            holder.customView.textView_detail_information.text = courseLesson.name
-
-            val imageView = holder.customView.imageView_detail_image
-            Picasso.get().load(courseLesson.imageUrl).into(imageView)
-
-            holder.courseLesson = courseLesson
-        }
-
-
-    }
-     class DetailLessonViewHolder(val customView: View, var courseLesson: CourseLesson? = null): RecyclerView.ViewHolder(customView){
-
-        companion object{
-            val COURE_LESSON_LINK_KEY = "COURSE_LESSON_LINK"
-        }
-
-        init {
-            customView.setOnClickListener {
-                val intent = Intent(customView.context, CourseLessonActivity::class.java)
-
-                intent.putExtra(COURE_LESSON_LINK_KEY, courseLesson?.link)
-
-                customView.context.startActivity(intent)
-
-            }
-        }
-    }
+//    private class DetailAdapter(val courseLessons: Array<CourseLesson>): RecyclerView.Adapter<DetailLessonViewHolder>(){
+//
+//        override fun getItemCount(): Int {
+//            return courseLessons.size
+//        }
+//
+//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailLessonViewHolder {
+//
+//            val layoutInflater = LayoutInflater.from(parent.context)
+//            val customView = layoutInflater.inflate(R.layout.activity_detail, parent, false)
+//
+//            return DetailLessonViewHolder(customView)
+//        }
+//
+//        override fun onBindViewHolder(holder: DetailLessonViewHolder, position: Int) {
+//
+//            val courseLesson = courseLessons.get(position)
+//
+////          holder.view.textView_place_name.text = feature.properties.name
+//            holder.view.textView_detail_information.text = courseLesson.place[0].toString()
+//
+////            val imageView = holder.customView.imageView_detail_image
+////            Picasso.get().load(courseLesson.imageUrl).into(imageView)
+//
+//            holder.courseLesson = courseLesson
+//        }
+//
+//
+//    }
+//     class DetailLessonViewHolder(val view: View, var courseLesson: CourseLesson? = null): RecyclerView.ViewHolder(view){
+//
+//    }
 }
