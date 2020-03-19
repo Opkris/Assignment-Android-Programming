@@ -27,11 +27,7 @@ class MainActivity : AppCompatActivity() {
     fun fetchJson() {
         println("Attempting to Fetch JSON")
 
-//        val placeId = 5039941851545600
-
-//        val url = "https://api.letsbuildthatapp.com/youtube/home_feed"
         val url = "https://www.noforeignland.com/home/api/v1/places/"
-//        val url = "https://www.noforeignland.com/home/api/v1/place?id=" + placeId
 
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity() {
                 val gson = GsonBuilder().create()
 
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
-//                val homeFeed = gson.fromJson(body, FromPlaceId::class.java)
 
                 runOnUiThread {
                     recyclerView_main.adapter = MainAdapter(homeFeed)

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row_detail.view.*
 
 class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailLessonViewHolder>() {
@@ -22,10 +23,17 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
     }
 
     override fun onBindViewHolder(holder: DetailLessonViewHolder, position: Int) {
+        val place = fromPlaceId.place
 
-        val place = fromPlaceId
-        holder.view.textView_list_row_detail_name.text = place.place.name
-        holder.view.textView_list_row_detail_comments.text = place.place.comments
+
+        val serverUrl = "https://lh3.googleusercontent.com/rcBdIl4prYahI4DeNDNFMLfoMch7JIMs1jhaiS6yodtXbm7RNnpFljFO52iOra_w6PiR668tnn_EVX5BGuq3VWuzYnjqtE7Y"
+
+        val imageDetailSite = holder.view.imageView_list_row_detail_image
+
+        Picasso.get().load(serverUrl).into(imageDetailSite)
+
+        holder.view.textView_list_row_detail_name.text = place.name
+        holder.view.textView_list_row_detail_comments.text = place.comments
     }
 
 }

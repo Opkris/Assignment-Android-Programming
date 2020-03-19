@@ -28,7 +28,6 @@ class DetailActivity : AppCompatActivity(){
 
      fun fetchJSON() {
         val placeId = intent.getLongExtra(CustomViewHolder.FEATURE_ID_KEY,-1)
-//         val placeId = 5039941851545600
 
         val url = "https://www.noforeignland.com/home/api/v1/place?id=" + placeId
 
