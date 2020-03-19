@@ -40,7 +40,10 @@ class DetailActivity : AppCompatActivity(){
                 val body = response.body?.string()
                 println(body)
 
+
+
                 val gson = GsonBuilder().create()
+
 
                 val fromPlaceId= gson.fromJson(body, FromPlaceId::class.java)
 

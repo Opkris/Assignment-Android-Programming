@@ -37,9 +37,9 @@ class Geometry( val type: String, coordinates: Coordinates)
 /************** Id site ****************/
 class FromPlaceId(val place: Place)
 
-class Place(val name: String, val comments: String)
+class Place(val name: String, val comments: String, val banner: String)
 
-//class Images(val servingUrl: String, id: Long, val uploadedByUserDisplayName: String)
+//class Images( val banner: String)
 
 //{
 //    "snapshots": [],

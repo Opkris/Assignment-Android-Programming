@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row_detail.view.*
+import java.lang.NullPointerException
 
 class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailLessonViewHolder>() {
 
     // numberOfItems
     override fun getItemCount(): Int {
-//            return homeFeed.videos.count()
         return 1
     }
 
@@ -25,18 +25,34 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
     override fun onBindViewHolder(holder: DetailLessonViewHolder, position: Int) {
         val place = fromPlaceId.place
 
-
-        val serverUrl = "https://lh3.googleusercontent.com/rcBdIl4prYahI4DeNDNFMLfoMch7JIMs1jhaiS6yodtXbm7RNnpFljFO52iOra_w6PiR668tnn_EVX5BGuq3VWuzYnjqtE7Y"
-
+        // checking if there are eny images/ banners, if not set it to default.
+        val url = place.banner
+        val default = "https://i.pinimg.com/originals/53/d2/ac/53d2acad97d3e05ab1ba172124bf727a.jpg"
         val imageDetailSite = holder.view.imageView_list_row_detail_image
 
-        Picasso.get().load(serverUrl).into(imageDetailSite)
+        if (url.isEmpty()) {
+            Picasso.get().load(default).into(imageDetailSite)
+        } else{
+            Picasso.get().load(url).into(imageDetailSite)
+        }
 
         holder.view.textView_list_row_detail_name.text = place.name
-        holder.view.textView_list_row_detail_comments.text = place.comments
+
+        //Check if there are eny comments, if not set a default text
+        val defaultString = " No comment has been received"
+        val comment = place.comments
+            .replace("<p>", "")
+            .replace("</p>", "")
+            .replace("<br/>", "")
+            .replace("<br>", "")
+            .replace("<b>", "")
+            .replace("</b>", "")
+
+        if(comment.isEmpty()){
+            holder.view.textView_list_row_detail_comments.text = defaultString
+        }else {
+            holder.view.textView_list_row_detail_comments.text = comment
+        }
     }
-
 }
-class DetailLessonViewHolder(val view: View): RecyclerView.ViewHolder(view){
-
-}
+class DetailLessonViewHolder(val view: View): RecyclerView.ViewHolder(view){}
