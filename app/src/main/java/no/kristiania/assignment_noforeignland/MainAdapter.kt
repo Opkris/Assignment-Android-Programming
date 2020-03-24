@@ -28,7 +28,7 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
 
             holder.view.textView_place_name.text = feature.properties.name
             holder.feature = feature
-        }
+}
 }
 
     class CustomViewHolder(val view: View, var feature: Feature? = null): RecyclerView.ViewHolder(view) {
@@ -48,7 +48,5 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
 
                 view.context.startActivity(intent)
             }
-
-
         }
     }

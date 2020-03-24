@@ -1,15 +1,19 @@
 package no.kristiania.assignment_noforeignland
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.list_row_detail.*
 import okhttp3.*
 import java.io.IOException
 
 class DetailActivity : AppCompatActivity(){
 
+
+    val TAG = "DetailActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,6 +24,7 @@ class DetailActivity : AppCompatActivity(){
         supportActionBar?.title = navBarTitle
 
         fetchJSON()
+
 
     }// end onCreate
 

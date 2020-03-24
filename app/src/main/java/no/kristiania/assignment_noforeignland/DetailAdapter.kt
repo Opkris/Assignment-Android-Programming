@@ -1,5 +1,6 @@
 package no.kristiania.assignment_noforeignland
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,7 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
         holder.view.textView_list_row_detail_lon.text = "lon: " + place.lon.toString()
         holder.view.textView_list_row_detail_name.text = place.name
 
-        //Check if there are eny comments, if not set a default text
+        //Check if there are eny comments, if not, set a default text
         val defaultString = " No comment has been received"
         val comment = place.comments
             .replace("<p>", "")
@@ -54,6 +55,27 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
         }else {
             holder.view.textView_list_row_detail_comments.text = comment
         }
+        holder.place = place
     }
 }
-class DetailLessonViewHolder(val view: View): RecyclerView.ViewHolder(view){}
+class DetailLessonViewHolder(val view: View, var place: Place? = null): RecyclerView.ViewHolder(view){
+
+    companion object{
+        val PLACE_NAME_KEY = "PLACE_NAME"
+        val PLACE_LON_KEY = "PLACE_LON"
+        val PLACE_LAT_KEY = "PLACE_LAT"
+    }
+    init {
+        view.setOnClickListener {
+            println("test")
+
+            val intent = Intent(view.context, MapsActivity::class.java)
+
+            intent.putExtra(PLACE_NAME_KEY, place?.name)
+            intent.putExtra(PLACE_LON_KEY,place?.lon)
+            intent.putExtra(PLACE_LAT_KEY, place?.lat)
+
+            view.context.startActivity(intent)
+        }
+    }
+}

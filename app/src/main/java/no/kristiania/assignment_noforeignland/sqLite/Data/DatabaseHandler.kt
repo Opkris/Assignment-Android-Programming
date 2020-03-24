@@ -46,7 +46,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         get() {
             val placeArrayList = ArrayList<String>()
             var name = ""
-            val selectQuery = "SELECT  * FROM $TABLE_NAME"
+            val selectQuery = "SELECT * FROM $TABLE_NAME"
             val db = this.readableDatabase
             val c = db.rawQuery(selectQuery, null)
             if (c.moveToFirst()) {
