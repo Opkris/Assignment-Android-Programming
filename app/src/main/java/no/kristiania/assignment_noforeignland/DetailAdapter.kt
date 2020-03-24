@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row_detail.view.*
-import java.lang.NullPointerException
 
 class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailLessonViewHolder>() {
 
@@ -36,6 +35,8 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
             Picasso.get().load(url).into(imageDetailSite)
         }
 
+        holder.view.textView_list_row_detail_lat.text = "lat: " + place.lat.toString()
+        holder.view.textView_list_row_detail_lon.text = "lon: " + place.lon.toString()
         holder.view.textView_list_row_detail_name.text = place.name
 
         //Check if there are eny comments, if not set a default text

@@ -18,7 +18,6 @@ package no.kristiania.assignment_noforeignland
 //        ]
 //    }
 //    }
-class Coordinates(val latitude: Long, val longitude: Long)
 
 class HomeFeed( val features: Array<Feature>)
 
@@ -32,7 +31,7 @@ class Properties( val name: String, val id: Long)
 /************** Id site ****************/
 class FromPlaceId(val place: Place)
 
-class Place(val name: String, val comments: String, val banner: String)
+class Place(val name: String, val comments: String, val banner: String, val lat: Double, val lon: Double)
 
 //{
 //    "snapshots": [],

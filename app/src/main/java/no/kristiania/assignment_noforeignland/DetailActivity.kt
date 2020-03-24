@@ -19,10 +19,7 @@ class DetailActivity : AppCompatActivity(){
         val  navBarTitle = intent.getStringExtra(CustomViewHolder.FEATURE_TITLE_KEY)
         supportActionBar?.title = navBarTitle
 
-//        println(detailUrl)
-
         fetchJSON()
-
 
     }// end onCreate
 
@@ -60,37 +57,4 @@ class DetailActivity : AppCompatActivity(){
             }
         })
     }
-
-//    private class DetailAdapter(val courseLessons: Array<CourseLesson>): RecyclerView.Adapter<DetailLessonViewHolder>(){
-//
-//        override fun getItemCount(): Int {
-//            return courseLessons.size
-//        }
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailLessonViewHolder {
-//
-//            val layoutInflater = LayoutInflater.from(parent.context)
-//            val customView = layoutInflater.inflate(R.layout.activity_detail, parent, false)
-//
-//            return DetailLessonViewHolder(customView)
-//        }
-//
-//        override fun onBindViewHolder(holder: DetailLessonViewHolder, position: Int) {
-//
-//            val courseLesson = courseLessons.get(position)
-//
-////          holder.view.textView_place_name.text = feature.properties.name
-//            holder.view.textView_detail_information.text = courseLesson.place[0].toString()
-//
-////            val imageView = holder.customView.imageView_detail_image
-////            Picasso.get().load(courseLesson.imageUrl).into(imageView)
-//
-//            holder.courseLesson = courseLesson
-//        }
-//
-//
-//    }
-//     class DetailLessonViewHolder(val view: View, var courseLesson: CourseLesson? = null): RecyclerView.ViewHolder(view){
-//
-//    }
 }

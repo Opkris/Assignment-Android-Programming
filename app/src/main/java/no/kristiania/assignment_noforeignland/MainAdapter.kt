@@ -48,5 +48,7 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
 
                 view.context.startActivity(intent)
             }
+
+
         }
     }

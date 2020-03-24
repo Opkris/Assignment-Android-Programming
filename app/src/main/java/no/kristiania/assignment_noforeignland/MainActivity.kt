@@ -3,6 +3,8 @@ package no.kristiania.assignment_noforeignland
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
@@ -11,6 +13,9 @@ import okhttp3.*
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
+
+
+    var displayList: MutableList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +28,46 @@ class MainActivity : AppCompatActivity() {
 
 
     }// end onCreate
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        val searchItem = menu?.findItem(R.id.menu_search)
+        if(searchItem != null){
+            val searchView = searchItem.actionView as SearchView
+            searchView.setOnQueryTextListener(object : SearchView.OnCloseListener,
+                SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    if(newText!!.isNotEmpty()){
+                        //clear the list
+
+                        val search = newText.toLowerCase()
+                        //forEach {
+                        // if(
+
+                        // adapter.notifyDataSetChanged()
+
+                    }else{
+                        //clear the list
+                        // add all the "items" to the list
+                        // adapter.notifyDataSetChanged()
+                    }
+                    return true
+                }
+
+                override fun onClose(): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        }
+        return super.onCreateOptionsMenu(menu)
+
+    }
 
     fun fetchJson() {
         println("Attempting to Fetch JSON")
