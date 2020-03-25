@@ -3,19 +3,23 @@ package no.kristiania.assignment_noforeignland
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_row.*
+import no.kristiania.assignment_noforeignland.sqLite.DBHelper
 import okhttp3.*
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-
-    var displayList: MutableList<String> = ArrayList()
+    private val TAG = "Main"
+    internal lateinit var db: DBHelper
+    private val placeId = ""
+    private val placeName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView_main.layoutManager = LinearLayoutManager(this)
 
         fetchJson()
+
+        db = DBHelper(this)
+
 
 
 
@@ -96,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                 println("Failed to execute request")
             }
         })// end client.newCall
+
     }// end fetchJson
 }
 

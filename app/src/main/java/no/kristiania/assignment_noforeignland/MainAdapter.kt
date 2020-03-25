@@ -1,14 +1,21 @@
 package no.kristiania.assignment_noforeignland
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row.view.*
+import no.kristiania.assignment_noforeignland.sqLite.DBHelper
 
 class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
+
+    private var TAG = "Main"
+    internal lateinit var db:DBHelper
+    private val placeIdTest = ""
+    private val placeNameTest = ""
+
 
         // numberOfItems
         override fun getItemCount(): Int {
@@ -28,8 +35,12 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
 
             holder.view.textView_place_name.text = feature.properties.name
             holder.feature = feature
+
+        }
 }
-}
+
+
+
 
     class CustomViewHolder(val view: View, var feature: Feature? = null): RecyclerView.ViewHolder(view) {
 
@@ -37,6 +48,8 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
             val FEATURE_TITLE_KEY = "FEATURE_TITLE"
             val FEATURE_ID_KEY = "FEATURE_ID"
         }
+
+
 
         init {
             view.setOnClickListener {

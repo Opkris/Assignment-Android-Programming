@@ -1,6 +1,8 @@
 package no.kristiania.assignment_noforeignland
 
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +12,12 @@ import kotlinx.android.synthetic.main.list_row_detail.view.*
 
 class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailLessonViewHolder>() {
 
+    val TAG = "DetailActivity"
     // numberOfItems
     override fun getItemCount(): Int {
         return 1
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailLessonViewHolder {
         // how do we even create a view
@@ -67,7 +71,7 @@ class DetailLessonViewHolder(val view: View, var place: Place? = null): Recycler
     }
     init {
         view.setOnClickListener {
-            println("test")
+
 
             val intent = Intent(view.context, MapsActivity::class.java)
 
