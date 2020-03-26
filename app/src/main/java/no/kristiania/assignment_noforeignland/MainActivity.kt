@@ -2,14 +2,12 @@ package no.kristiania.assignment_noforeignland
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_row.*
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
 import okhttp3.*
 import java.io.IOException
@@ -32,14 +30,12 @@ class MainActivity : AppCompatActivity() {
         db = DBHelper(this)
 
 
-
-
     }// end onCreate
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         val searchItem = menu?.findItem(R.id.menu_search)
-        if(searchItem != null){
+        if (searchItem != null) {
             val searchView = searchItem.actionView as SearchView
             searchView.setOnQueryTextListener(object : SearchView.OnCloseListener,
                 SearchView.OnQueryTextListener {
@@ -49,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
 
-                    if(newText!!.isNotEmpty()){
+                    if (newText!!.isNotEmpty()) {
                         //clear the list
 
                         val search = newText.toLowerCase()
@@ -58,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
                         // adapter.notifyDataSetChanged()
 
-                    }else{
+                    } else {
                         //clear the list
                         // add all the "items" to the list
                         // adapter.notifyDataSetChanged()
@@ -85,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         val client = OkHttpClient()
 
         //enqueue make sure that every thing is going on in the background // another thread.
-        client.newCall(request).enqueue(object: Callback {
+        client.newCall(request).enqueue(object : Callback {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
@@ -98,12 +94,29 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     recyclerView_main.adapter = MainAdapter(homeFeed)
                 }
+
+                body?.forEach {
+//                    addingPlace(homeFeed.features.)
+                }
             }
+
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request")
             }
         })// end client.newCall
 
+
     }// end fetchJson
+
+        private fun addingPlace(webId: String, placeName: String) {
+            db = DBHelper(this)
+            db.addPlace(webId, placeName)
+
+
+            Log.d("Array", "\nlist from DB: " + db.allPlaces)
+
+    }
+
+
 }
 

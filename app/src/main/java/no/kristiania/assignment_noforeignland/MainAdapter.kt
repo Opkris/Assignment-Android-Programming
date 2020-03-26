@@ -37,6 +37,7 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
             holder.feature = feature
 
         }
+
 }
 
 
