@@ -29,9 +29,9 @@ class Properties( val name: String, val id: Long)
 
 
 /************** Id site ****************/
-class FromPlaceId(val place: Place)
+class FromPlaceId(val place: PlaceDetail)
 
-class Place(val name: String, val comments: String, val banner: String, val lat: Double, val lon: Double)
+class PlaceDetail(val name: String, val comments: String, val banner: String, val lat: Double, val lon: Double)
 
 //{
 //    "snapshots": [],

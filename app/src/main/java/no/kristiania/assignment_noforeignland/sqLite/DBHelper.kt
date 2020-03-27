@@ -5,12 +5,10 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import no.kristiania.assignment_noforeignland.DetailActivity
 import java.lang.RuntimeException
 import kotlin.collections.ArrayList
 
 class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VER){
-
 
     companion object{
         private val DATABASE_NAME = "PLACES_DETAIL.db"
@@ -18,10 +16,12 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
 
         //Table
         private val TABLE_NAME = "Place"
+        private val TABLE_NAME2 = "Place_Test"
         private val COL_ID = "Id"
         private val COL_ID_FROM_WEB = "Web_Id"
         private val COL_NAME = "Name"
         private val COL_COMMENT = "Comment"
+        private val COL_BANNERURL = "BannerUrl"
 
     }
 
@@ -30,10 +30,20 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
                  TABLE_NAME + "(" +
                  COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                  COL_ID_FROM_WEB + " TEXT," +
+                 COL_NAME + " TEXT NOT NULL UNIQUE, " +
+                 COL_COMMENT + " TEXT, " +
+                 COL_BANNERURL + " TEXT " +
+                 ");")
+        db?.execSQL(CREATE_TABLE_PLACE)
+
+        val CREATE_TABLE_PLACE2 = ("CREATE TABLE " +
+                 TABLE_NAME2 + "(" +
+                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                 COL_ID_FROM_WEB + " TEXT," +
                  COL_NAME + " TEXT NOT NULL UNIQUE " +
 //                 COL_COMMENT + " TEXT " +
                  ");")
-        db?.execSQL(CREATE_TABLE_PLACE)
+        db?.execSQL(CREATE_TABLE_PLACE2)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -43,16 +53,16 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
 
     //CRUD
 
-    val allPlaces:ArrayList<String>
+    val allPlaces:ArrayList<Place>
         get(){
-            val lstPlace = ArrayList<String>()
-            var id = ""
-            var idWeb = ""
-            var name = ""
-            var comment = ""
-            var lat = ""
-            var lon = ""
-            var bannerUrl = ""
+            val lstPlace = ArrayList<Place>()
+//            var id = ""
+//            var idWeb = ""
+//            var name = ""
+//            var comment = ""
+//            var lat = ""
+//            var lon = ""
+//            var bannerUrl = ""
             val selectQuery = "SELECT * FROM $TABLE_NAME"
             val db = this.writableDatabase
             val c = db.rawQuery(selectQuery,null)
@@ -64,23 +74,23 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
                     place.name = c.getString(c.getColumnIndex(COL_NAME))
 //                    place.comment = c.getString(c.getColumnIndex(COL_COMMENT))
 
+                    lstPlace.add(place)
 
-                    lstPlace.add(place.toString())
                 } while (c.moveToNext())
                 Log.d("Array", lstPlace.toString())
             }
             return lstPlace
         }
 
-
-
     fun addPlace(webId: String, name: String){
+//    fun addPlace(place: PlaceClass){
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(COL_ID_FROM_WEB, webId)
         values.put(COL_NAME, name)
+//        values.put(COL_COMMENT, place.comment)
+//        values.put(COL_BANNERURL, place.bannerUrl)
 //        values.put(COL_COMMENT, comment)
-
 
     try {
         // some code
@@ -90,23 +100,23 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
         // handler
         Log.d("Array", "duplicate name: $name")
     }
-        db.close()
-    }
+//        db.close()
+    }// end Add Place
 
-    fun updatePlace (place: Place): Int{
+    fun updatePlace (places: Place): Int{
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(COL_ID, place.id)
-        values.put(COL_NAME, place.name)
+        values.put(COL_ID, places.id)
+        values.put(COL_NAME, places.name)
 
-        return db.update(TABLE_NAME, values, "$COL_NAME=?", arrayOf(place.id.toString()))
+        return db.update(TABLE_NAME, values, "$COL_NAME=?", arrayOf(places.id.toString()))
     }
 
-    fun DeletePlace(place: Place){
+    fun DeletePlace(places: Place){
 
         val db = this.writableDatabase
 
-        db.delete(TABLE_NAME, COL_NAME, arrayOf(place.id.toString()))
+        db.delete(TABLE_NAME, COL_NAME, arrayOf(places.id.toString()))
         db.close()
     }
 

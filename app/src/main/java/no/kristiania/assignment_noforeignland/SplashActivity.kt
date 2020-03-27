@@ -10,7 +10,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // create the loading time of the "splash"
-        val SPLASH_LOADING_TIME:Long = 500 // 0.5 seconds
+        val SPLASH_LOADING_TIME:Long = 1500 // 0.5 seconds
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)

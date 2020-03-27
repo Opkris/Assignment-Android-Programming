@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
+import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_row.*
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
 import okhttp3.*
 import java.io.IOException
@@ -16,8 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "Main"
     internal lateinit var db: DBHelper
-    private val placeId = ""
-    private val placeName = ""
+    private var placeId = ""
+    private var placeName = ""
+    private var placeComment = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +32,28 @@ class MainActivity : AppCompatActivity() {
 
         db = DBHelper(this)
 
+//        addingPlace(placeId, placeName)
+        test()
 
     }// end onCreate
+
+    private fun test() {
+        var recyclerView = recyclerView_main
+        Log.d("TEST", "Dah")
+        for (element in recyclerView){
+            Log.d("TEST", "Hello World: $element" )
+        }
+
+    }
+
+    private fun addingPlace(webId: String, placeName: String) {
+        db = DBHelper(this)
+        db.addPlace(webId, placeName)
+
+
+        Log.d("Array", "\nlist from DB: " + db.allPlaces)
+
+    }// end AddingPlace
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -85,8 +108,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
-                println(body)
-
+                Log.d("Array","\n************************************\n************************************\n" +
+                        "************************************\n************************************\n" +
+                        "/" + body)
                 val gson = GsonBuilder().create()
 
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
@@ -95,9 +119,7 @@ class MainActivity : AppCompatActivity() {
                     recyclerView_main.adapter = MainAdapter(homeFeed)
                 }
 
-                body?.forEach {
-//                    addingPlace(homeFeed.features.)
-                }
+
             }
 
             override fun onFailure(call: Call, e: IOException) {
@@ -105,17 +127,7 @@ class MainActivity : AppCompatActivity() {
             }
         })// end client.newCall
 
-
     }// end fetchJson
-
-        private fun addingPlace(webId: String, placeName: String) {
-            db = DBHelper(this)
-            db.addPlace(webId, placeName)
-
-
-            Log.d("Array", "\nlist from DB: " + db.allPlaces)
-
-    }
 
 
 }

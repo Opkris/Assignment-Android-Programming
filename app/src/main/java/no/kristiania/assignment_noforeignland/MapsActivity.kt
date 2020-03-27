@@ -1,13 +1,8 @@
 package no.kristiania.assignment_noforeignland
 
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -18,7 +13,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.io.IOException
 
 
 // not added to the map:
@@ -65,9 +59,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val placeName = intent.getStringExtra(DetailLessonViewHolder.PLACE_NAME_KEY)
-        val lat = intent.getDoubleExtra(DetailLessonViewHolder.PLACE_LAT_KEY,-1.32)
-        val lon = intent.getDoubleExtra(DetailLessonViewHolder.PLACE_LON_KEY, -1.23)
+        val placeName = intent.getStringExtra(DetailCustomViewHolder.PLACE_NAME_KEY)
+        val lat = intent.getDoubleExtra(DetailCustomViewHolder.PLACE_LAT_KEY,-1.32)
+        val lon = intent.getDoubleExtra(DetailCustomViewHolder.PLACE_LON_KEY, -1.23)
 
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)

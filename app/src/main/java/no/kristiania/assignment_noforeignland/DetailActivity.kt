@@ -1,12 +1,12 @@
 package no.kristiania.assignment_noforeignland
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
+import no.kristiania.assignment_noforeignland.sqLite.Place
 import okhttp3.*
 import java.io.IOException
 
@@ -16,6 +16,7 @@ class DetailActivity : AppCompatActivity(){
     internal lateinit var db: DBHelper
     private var placeIdWeb =""
     private var placeNameV = ""
+    private var placeV = Place()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,18 +30,17 @@ class DetailActivity : AppCompatActivity(){
 
         fetchJSON()
 
-        addingPlace(placeIdWeb, placeNameV)
+//        addingPlace(placeIdWeb, placeNameV)
 
     }// end onCreate
 
-    private fun addingPlace(webId: String, placeName: String) {
-        db = DBHelper(this)
-        db.addPlace(webId, placeName)
-
-
-        Log.d("Array", "\nlist from DB: " + db.allPlaces)
-
-    }
+//    private fun addingPlace(webId: String, placeName: String) {
+//        db = DBHelper(this)
+//        db.addPlace(webId, placeName)
+//
+//        Log.d("Array", "\nlist from DB: " + db.allPlaces[1])
+//
+//    }// end AddingPlace
 
 
     fun fetchJSON() {
@@ -76,8 +76,9 @@ class DetailActivity : AppCompatActivity(){
                 println("Something went wrong.....DetailActivity")
             }
         })
-        placeIdWeb = placeId.toString()
-        placeNameV = placeName
+//        placeV =
+//        placeIdWeb = placeId.toString()
+//        placeNameV = placeName
 
 
 

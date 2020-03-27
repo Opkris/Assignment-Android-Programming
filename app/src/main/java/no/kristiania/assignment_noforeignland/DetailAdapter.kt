@@ -1,8 +1,6 @@
 package no.kristiania.assignment_noforeignland
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row_detail.view.*
 
-class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailLessonViewHolder>() {
+class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailCustomViewHolder>() {
 
     val TAG = "DetailActivity"
     // numberOfItems
@@ -19,14 +17,14 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailLessonViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailCustomViewHolder {
         // how do we even create a view
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.list_row_detail, parent, false)
-        return DetailLessonViewHolder(cellForRow)
+        return DetailCustomViewHolder(cellForRow)
     }
 
-    override fun onBindViewHolder(holder: DetailLessonViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DetailCustomViewHolder, position: Int) {
         val place = fromPlaceId.place
 
         // checking if there are eny images/ banners, if not set it to default.
@@ -62,7 +60,7 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
         holder.place = place
     }
 }
-class DetailLessonViewHolder(val view: View, var place: Place? = null): RecyclerView.ViewHolder(view){
+class DetailCustomViewHolder(val view: View, var place: PlaceDetail? = null): RecyclerView.ViewHolder(view){
 
     companion object{
         val PLACE_NAME_KEY = "PLACE_NAME"

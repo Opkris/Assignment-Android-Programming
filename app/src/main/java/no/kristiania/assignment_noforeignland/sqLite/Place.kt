@@ -11,9 +11,29 @@ class Place{
 
     constructor(){}
 
-    constructor(id: String, WebId: String, name: String?) {
+    constructor(WebId: String, name: String?) {
         this.id = id
         this.WebId = WebId
         this.name = name
     }
+
+    constructor(
+        id: String?,
+        WebId: String?,
+        name: String?,
+        comment: String?,
+        lat: String?,
+        lon: String?,
+        bannerUrl: String?
+    ) {
+        this.id = id
+        this.WebId = WebId
+        this.name = name
+        this.comment = comment
+        this.lat = lat
+        this.lon = lon
+        this.bannerUrl = bannerUrl
+    }
+
+
 }
