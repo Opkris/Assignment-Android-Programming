@@ -1,9 +1,11 @@
-package no.kristiania.assignment_noforeignland
+package no.kristiania.assignment_noforeignland.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import no.kristiania.assignment_noforeignland.MainActivity
+import no.kristiania.assignment_noforeignland.R
 
 class SplashActivity : AppCompatActivity() {
 

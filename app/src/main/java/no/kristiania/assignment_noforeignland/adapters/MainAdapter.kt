@@ -1,4 +1,4 @@
-package no.kristiania.assignment_noforeignland
+package no.kristiania.assignment_noforeignland.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_row.view.*
+import no.kristiania.assignment_noforeignland.DetailActivity
+import no.kristiania.assignment_noforeignland.R
+import no.kristiania.assignment_noforeignland.models.Feature
+import no.kristiania.assignment_noforeignland.models.HomeFeed
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
-import no.kristiania.assignment_noforeignland.sqLite.Place
+import no.kristiania.assignment_noforeignland.sqLite.model.Place
 
 class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
 
@@ -26,7 +30,9 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
             // how do we even create a view
             val layoutInflater = LayoutInflater.from(parent.context)
             val cellForRow = layoutInflater.inflate(R.layout.list_row, parent, false)
-            return CustomViewHolder(cellForRow)
+            return CustomViewHolder(
+                cellForRow
+            )
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
@@ -37,13 +43,14 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
             holder.feature = feature
 
             val webId = feature.properties.id.toString()
-//            Log.d("Array", "trying to list from an array: $lstPlace")
+//            Log.d("Database", "trying to list from an array: $lstPlace")
             for (name in feature.properties.name){
-                val place = Place()
+                val place =
+                    Place()
                 val name = feature.properties.name
                 place.name = name
                 lstPlace.add(place)
-//                Log.d("Array", "\n***********\n$name")
+//                Log.d("Database", "\n***********\n$name")
             }
 
         }

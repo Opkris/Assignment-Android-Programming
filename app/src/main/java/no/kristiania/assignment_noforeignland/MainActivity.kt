@@ -9,7 +9,8 @@ import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_row.*
+import no.kristiania.assignment_noforeignland.adapters.MainAdapter
+import no.kristiania.assignment_noforeignland.models.HomeFeed
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
 import okhttp3.*
 import java.io.IOException
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         db.addPlace(webId, placeName)
 
 
-        Log.d("Array", "\nlist from DB: " + db.allPlaces)
+        Log.d("Database", "\nlist from DB: " + db.allPlaces)
 
     }// end AddingPlace
 
@@ -108,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
-                Log.d("Array","\n************************************\n************************************\n" +
+                Log.d("Database","\n************************************\n************************************\n" +
                         "************************************\n************************************\n" +
                         "/" + body)
                 val gson = GsonBuilder().create()
@@ -116,7 +117,10 @@ class MainActivity : AppCompatActivity() {
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
 
                 runOnUiThread {
-                    recyclerView_main.adapter = MainAdapter(homeFeed)
+                    recyclerView_main.adapter =
+                        MainAdapter(
+                            homeFeed
+                        )
                 }
 
 

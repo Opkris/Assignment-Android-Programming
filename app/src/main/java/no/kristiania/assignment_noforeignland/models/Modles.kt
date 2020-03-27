@@ -1,4 +1,4 @@
-package no.kristiania.assignment_noforeignland
+package no.kristiania.assignment_noforeignland.models
 
 //{
 //    "type": "FeatureCollection",

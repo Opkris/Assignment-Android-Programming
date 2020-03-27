@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
+import no.kristiania.assignment_noforeignland.adapters.CustomViewHolder
+import no.kristiania.assignment_noforeignland.adapters.DetailAdapter
+import no.kristiania.assignment_noforeignland.models.FromPlaceId
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
-import no.kristiania.assignment_noforeignland.sqLite.Place
+import no.kristiania.assignment_noforeignland.sqLite.model.Place
 import okhttp3.*
 import java.io.IOException
 
@@ -16,7 +19,8 @@ class DetailActivity : AppCompatActivity(){
     internal lateinit var db: DBHelper
     private var placeIdWeb =""
     private var placeNameV = ""
-    private var placeV = Place()
+    private var placeV =
+        Place()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +42,7 @@ class DetailActivity : AppCompatActivity(){
 //        db = DBHelper(this)
 //        db.addPlace(webId, placeName)
 //
-//        Log.d("Array", "\nlist from DB: " + db.allPlaces[1])
+//        Log.d("Database", "\nlist from DB: " + db.allPlaces[1])
 //
 //    }// end AddingPlace
 
@@ -67,7 +71,10 @@ class DetailActivity : AppCompatActivity(){
 
                 runOnUiThread {
 
-                    recyclerView_detail.adapter = DetailAdapter(fromPlaceId)
+                    recyclerView_detail.adapter =
+                        DetailAdapter(
+                            fromPlaceId
+                        )
                 }
 
             }

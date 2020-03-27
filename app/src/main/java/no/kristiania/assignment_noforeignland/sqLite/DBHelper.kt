@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import no.kristiania.assignment_noforeignland.sqLite.model.Place
 import java.lang.RuntimeException
 import kotlin.collections.ArrayList
 
@@ -68,7 +69,8 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
             val c = db.rawQuery(selectQuery,null)
             if(c.moveToFirst()){
                 do {
-                    var place = Place()
+                    var place =
+                        Place()
                     place.id = c.getString(c.getColumnIndex(COL_ID))
                     place.WebId = c.getString(c.getColumnIndex(COL_ID_FROM_WEB))
                     place.name = c.getString(c.getColumnIndex(COL_NAME))
