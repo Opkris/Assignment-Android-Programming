@@ -21,7 +21,7 @@
 
     <SearchView
         android:id="@+id/button_search_place_by_name"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/rd_corners_search_view"
@@ -31,9 +31,18 @@
         android:paddingRight="8dp"
         android:textSize="18dp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_to_db_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="db test"
+        app:layout_constraintBottom_toBottomOf="@+id/button_search_place_by_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_search_place_by_name"
+        app:layout_constraintTop_toTopOf="@+id/button_search_place_by_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

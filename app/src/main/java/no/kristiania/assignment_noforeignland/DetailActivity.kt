@@ -1,6 +1,7 @@
 package no.kristiania.assignment_noforeignland
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
@@ -13,14 +14,14 @@ import no.kristiania.assignment_noforeignland.sqLite.model.Place
 import okhttp3.*
 import java.io.IOException
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailActivity : AppCompatActivity(){
 
     val TAG = "DetailActivity"
     internal lateinit var db: DBHelper
     private var placeIdWeb =""
     private var placeNameV = ""
-    private var placeV =
-        Place()
+    private var placeV = Place()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,27 +30,27 @@ class DetailActivity : AppCompatActivity(){
         setContentView(R.layout.activity_detail)
         recyclerView_detail.layoutManager = LinearLayoutManager(this)
 
-        val  navBarTitle = intent.getStringExtra(CustomViewHolder.FEATURE_TITLE_KEY)
+        val  navBarTitle = intent.getStringExtra(CustomViewHolder.FEATURE_NAME_KEY)
         supportActionBar?.title = navBarTitle
 
         fetchJSON()
 
-//        addingPlace(placeIdWeb, placeNameV)
+        addingPlace(placeIdWeb, placeNameV)
 
     }// end onCreate
 
-//    private fun addingPlace(webId: String, placeName: String) {
-//        db = DBHelper(this)
-//        db.addPlace(webId, placeName)
-//
-//        Log.d("Database", "\nlist from DB: " + db.allPlaces[1])
-//
-//    }// end AddingPlace
+    private fun addingPlace(webId: String, placeName: String) {
+        db = DBHelper(this)
+        db.addPlace(webId, placeName)
+
+        Log.d("Database", "\nDetailActivity : list from DB: " + db.allPlaces)
+
+    }// end AddingPlace
 
 
     fun fetchJSON() {
         val placeId = intent.getLongExtra(CustomViewHolder.FEATURE_ID_KEY,-1)
-        val placeName = intent.getStringExtra(CustomViewHolder.FEATURE_TITLE_KEY)
+        val placeName = intent.getStringExtra(CustomViewHolder.FEATURE_NAME_KEY).toString()
 
         val url = "https://www.noforeignland.com/home/api/v1/place?id=" + placeId
 
@@ -62,10 +63,7 @@ class DetailActivity : AppCompatActivity(){
                 val body = response.body?.string()
                 println(body)
 
-
-
                 val gson = GsonBuilder().create()
-
 
                 val fromPlaceId= gson.fromJson(body, FromPlaceId::class.java)
 
@@ -84,8 +82,8 @@ class DetailActivity : AppCompatActivity(){
             }
         })
 //        placeV =
-//        placeIdWeb = placeId.toString()
-//        placeNameV = placeName
+        placeIdWeb = placeId.toString()
+        placeNameV = placeName
 
 
 

@@ -1,5 +1,6 @@
 package no.kristiania.assignment_noforeignland
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         db = DBHelper(this)
 
+
 //        addingPlace(placeId, placeName)
         test()
 
@@ -56,45 +58,45 @@ class MainActivity : AppCompatActivity() {
 
     }// end AddingPlace
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        val searchItem = menu?.findItem(R.id.menu_search)
-        if (searchItem != null) {
-            val searchView = searchItem.actionView as SearchView
-            searchView.setOnQueryTextListener(object : SearchView.OnCloseListener,
-                SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-
-                    if (newText!!.isNotEmpty()) {
-                        //clear the list
-
-                        val search = newText.toLowerCase()
-                        //forEach {
-                        // if(
-
-                        // adapter.notifyDataSetChanged()
-
-                    } else {
-                        //clear the list
-                        // add all the "items" to the list
-                        // adapter.notifyDataSetChanged()
-                    }
-                    return true
-                }
-
-                override fun onClose(): Boolean {
-                    TODO("Not yet implemented")
-                }
-
-            })
-        }
-        return super.onCreateOptionsMenu(menu)
-
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.main, menu)
+//        val searchItem = menu?.findItem(R.id.menu_search)
+//        if (searchItem != null) {
+//            val searchView = searchItem.actionView as SearchView
+//            searchView.setOnQueryTextListener(object : SearchView.OnCloseListener,
+//                SearchView.OnQueryTextListener {
+//                override fun onQueryTextSubmit(query: String?): Boolean {
+//                    return true
+//                }
+//
+//                override fun onQueryTextChange(newText: String?): Boolean {
+//
+//                    if (newText!!.isNotEmpty()) {
+//                        //clear the list
+//
+//                        val search = newText.toLowerCase()
+//                        //forEach {
+//                        // if(
+//
+//                        // adapter.notifyDataSetChanged()
+//
+//                    } else {
+//                        //clear the list
+//                        // add all the "items" to the list
+//                        // adapter.notifyDataSetChanged()
+//                    }
+//                    return true
+//                }
+//
+//                override fun onClose(): Boolean {
+//                    TODO("Not yet implemented")
+//                }
+//
+//            })
+//        }
+//        return super.onCreateOptionsMenu(menu)
+//
+//    }
 
     fun fetchJson() {
         println("Attempting to Fetch JSON")

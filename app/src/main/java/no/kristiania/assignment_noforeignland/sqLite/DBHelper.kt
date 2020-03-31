@@ -17,7 +17,6 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
 
         //Table
         private val TABLE_NAME = "Place"
-        private val TABLE_NAME2 = "Place_Test"
         private val COL_ID = "Id"
         private val COL_ID_FROM_WEB = "Web_Id"
         private val COL_NAME = "Name"
@@ -31,20 +30,11 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
                  TABLE_NAME + "(" +
                  COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                  COL_ID_FROM_WEB + " TEXT," +
-                 COL_NAME + " TEXT NOT NULL UNIQUE, " +
-                 COL_COMMENT + " TEXT, " +
-                 COL_BANNERURL + " TEXT " +
+                 COL_NAME + " TEXT NOT NULL UNIQUE " +
+//                 COL_COMMENT + " TEXT, " +
+//                 COL_BANNERURL + " TEXT " +
                  ");")
         db?.execSQL(CREATE_TABLE_PLACE)
-
-        val CREATE_TABLE_PLACE2 = ("CREATE TABLE " +
-                 TABLE_NAME2 + "(" +
-                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                 COL_ID_FROM_WEB + " TEXT," +
-                 COL_NAME + " TEXT NOT NULL UNIQUE " +
-//                 COL_COMMENT + " TEXT " +
-                 ");")
-        db?.execSQL(CREATE_TABLE_PLACE2)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -57,13 +47,6 @@ class DBHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, 
     val allPlaces:ArrayList<Place>
         get(){
             val lstPlace = ArrayList<Place>()
-//            var id = ""
-//            var idWeb = ""
-//            var name = ""
-//            var comment = ""
-//            var lat = ""
-//            var lon = ""
-//            var bannerUrl = ""
             val selectQuery = "SELECT * FROM $TABLE_NAME"
             val db = this.writableDatabase
             val c = db.rawQuery(selectQuery,null)

@@ -42,16 +42,16 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
             holder.view.textView_place_name.text = feature.properties.name
             holder.feature = feature
 
-            val webId = feature.properties.id.toString()
-//            Log.d("Database", "trying to list from an array: $lstPlace")
-            for (name in feature.properties.name){
-                val place =
-                    Place()
-                val name = feature.properties.name
-                place.name = name
-                lstPlace.add(place)
-//                Log.d("Database", "\n***********\n$name")
-            }
+//            val webId = feature.properties.id.toString()
+////            Log.d("Database", "trying to list from an array: $lstPlace")
+//            for (name in feature.properties.name){
+//                val place =
+//                    Place()
+//                val name = feature.properties.name
+//                place.name = name
+//                lstPlace.add(place)
+////                Log.d("Database", "\n***********\n$name")
+//            }
 
         }
 
@@ -60,7 +60,7 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
     class CustomViewHolder(val view: View, var feature: Feature? = null): RecyclerView.ViewHolder(view) {
 
         companion object{
-            val FEATURE_TITLE_KEY = "FEATURE_TITLE"
+            val FEATURE_NAME_KEY = "FEATURE_TITLE"
             val FEATURE_ID_KEY = "FEATURE_ID"
         }
 
@@ -71,7 +71,7 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
                 println("test")
 
                 val intent = Intent(view.context, DetailActivity::class.java)
-                intent.putExtra(FEATURE_TITLE_KEY,feature?.properties?.name)
+                intent.putExtra(FEATURE_NAME_KEY,feature?.properties?.name)
                 intent.putExtra(FEATURE_ID_KEY, feature?.properties?.id)
 
 
@@ -80,5 +80,3 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
         }
     }// end CustomViewHolder
 
-        fun setData(list: List<String>){
-        }
