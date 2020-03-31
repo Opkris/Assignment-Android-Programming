@@ -1,18 +1,17 @@
 package no.kristiania.assignment_noforeignland
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.widget.SearchView
-import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import no.kristiania.assignment_noforeignland.adapters.MainAdapter
 import no.kristiania.assignment_noforeignland.models.HomeFeed
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
+import no.kristiania.assignment_noforeignland.sqLite.PlaceDB
+import no.kristiania.assignment_noforeignland.sqLite.model.PlaceEntity
 import okhttp3.*
 import java.io.IOException
 
@@ -36,18 +35,9 @@ class MainActivity : AppCompatActivity() {
 
 
 //        addingPlace(placeId, placeName)
-        test()
 
     }// end onCreate
 
-    private fun test() {
-        var recyclerView = recyclerView_main
-        Log.d("TEST", "Dah")
-        for (element in recyclerView){
-            Log.d("TEST", "Hello World: $element" )
-        }
-
-    }
 
     private fun addingPlace(webId: String, placeName: String) {
         db = DBHelper(this)

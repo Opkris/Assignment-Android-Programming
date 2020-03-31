@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
 import no.kristiania.assignment_noforeignland.adapters.CustomViewHolder
 import no.kristiania.assignment_noforeignland.adapters.DetailAdapter
 import no.kristiania.assignment_noforeignland.models.FromPlaceId
 import no.kristiania.assignment_noforeignland.sqLite.DBHelper
+import no.kristiania.assignment_noforeignland.sqLite.PlaceDB
 import no.kristiania.assignment_noforeignland.sqLite.model.Place
+import no.kristiania.assignment_noforeignland.sqLite.model.PlaceEntity
 import okhttp3.*
 import java.io.IOException
 
@@ -35,17 +38,35 @@ class DetailActivity : AppCompatActivity(){
 
         fetchJSON()
 
-        addingPlace(placeIdWeb, placeNameV)
+//        addingPlace(placeIdWeb, placeNameV)
+        val db= Room.databaseBuilder(applicationContext, PlaceDB::class.java,"ROOM_PLACE.db").build()
+        //Insert Case
+        val thread = Thread {
+            var placeEntity = PlaceEntity()
+//            placeEntity.placeId= 1
+            placeEntity.placeWebId = placeIdWeb
+            placeEntity.placeName = placeNameV
+
+            db.placeDao().savePlaces(placeEntity)
+
+            //fetch Records
+            db.placeDao().getAllPlaces().forEach()
+            {
+                Log.i("Fetch Records", "\nId:  : ${it.placeId}" + " Name:  : ${it.placeName}" + " WebId:  : ${it.placeWebId}")
+//                Log.d("Fetch Records", "Name:  : ${it.bookName}")
+            }
+        }
+        thread.start()
 
     }// end onCreate
 
-    private fun addingPlace(webId: String, placeName: String) {
-        db = DBHelper(this)
-        db.addPlace(webId, placeName)
-
-        Log.d("Database", "\nDetailActivity : list from DB: " + db.allPlaces)
-
-    }// end AddingPlace
+//    private fun addingPlace(webId: String, placeName: String) {
+//        db = DBHelper(this)
+//        db.addPlace(webId, placeName)
+//
+//        Log.d("Database", "\nDetailActivity : list from DB: " + db.allPlaces)
+//
+//    }// end AddingPlace
 
 
     fun fetchJSON() {
