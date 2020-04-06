@@ -76,7 +76,6 @@ class DetailCustomViewHolder(val view: View, var place: Place? = null): Recycler
     init {
         view.setOnClickListener {
 
-
             val intent = Intent(view.context, MapsActivity::class.java)
 
             intent.putExtra(PLACE_NAME_KEY, place?.name)

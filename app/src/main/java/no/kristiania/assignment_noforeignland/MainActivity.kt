@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "Main"
     internal lateinit var db: DBHelper
-    private var placeId = ""
-    private var placeName = ""
-    private var placeComment = ""
+    private val counter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         fetchJson()
 
-        db = DBHelper(this)
+//        db = DBHelper(this)
 
 
 //        addingPlace(placeId, placeName)
@@ -39,14 +37,11 @@ class MainActivity : AppCompatActivity() {
     }// end onCreate
 
 
-    private fun addingPlace(webId: String, placeName: String) {
-        db = DBHelper(this)
-        db.addPlace(webId, placeName)
-
-
-        Log.d("Database", "\nlist from DB: " + db.allPlaces)
-
-    }// end AddingPlace
+//    private fun addingPlace(webId: String, placeName: String) {
+//        db = DBHelper(this)
+//        db.addPlace(webId, placeName)
+//        Log.d("Database", "\nlist from DB: " + db.allPlaces)
+//    }// end AddingPlace
 
     fun fetchJson() {
         println("Attempting to Fetch JSON")
@@ -61,15 +56,43 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
-                Log.d("Database","\n************************************\n************************************\n" +
-                        "************************************\n************************************\n" +
-                        "/" + body)
+                println("\n\n\n from Json Body: \n $body \n\n\n")
                 val gson = GsonBuilder().create()
 
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
 
+                //*******************************************
+                //*******************************************
+
+
                 val db= Room.databaseBuilder(applicationContext, PlaceDB::class.java,"ROOM_PLACE.db").build()
 
+//                for (x in 0 ..11000) {
+                for (x in homeFeed.features.indices) {
+                    val feature = homeFeed.features.get(x)
+                    val thread = Thread {
+                        var placeEntity = PlaceEntity()
+                        placeEntity.placeWebId = feature.properties.id.toString()
+                        placeEntity.placeName = feature.properties.name
+                        db.placeDao().savePlaces(placeEntity)
+
+                        //*******************************************
+                        //*******************************************
+                    }
+                    thread.start()
+                }// end forloop
+
+                print("\n\n????????????????????")
+                print("\n\n$homeFeed")
+                print("\n\n????????????????????")
+                db.placeDao().getAllPlaces().forEach()
+                {
+                    Log.i(
+                        "Database",
+                        "\nId: ${it.placeId}" + " Name: ${it.placeName}" + " WebId: ${it.placeWebId}"
+                    )
+                }
+                print("\n\n????????????????????")
 
 
                 runOnUiThread {
@@ -77,10 +100,12 @@ class MainActivity : AppCompatActivity() {
                         MainAdapter(
                             homeFeed
                         )
+
                 }
 
 
             }
+
 
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request")
@@ -88,7 +113,5 @@ class MainActivity : AppCompatActivity() {
         })// end client.newCall
 
     }// end fetchJson
-
-
-}
+    }
 

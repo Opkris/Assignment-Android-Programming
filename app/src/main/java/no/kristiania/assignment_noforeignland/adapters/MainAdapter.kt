@@ -1,23 +1,25 @@
 package no.kristiania.assignment_noforeignland.adapters
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import kotlinx.android.synthetic.main.list_row.view.*
 import no.kristiania.assignment_noforeignland.DetailActivity
 import no.kristiania.assignment_noforeignland.R
 import no.kristiania.assignment_noforeignland.models.Feature
 import no.kristiania.assignment_noforeignland.models.HomeFeed
 import no.kristiania.assignment_noforeignland.db.DBHelper
+import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.db.model.Place
+import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 
 class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
 
     private var TAG = "Main"
-    internal lateinit var db:DBHelper
-    val lstPlace = ArrayList<Place>()
 
 
         // numberOfItems
@@ -38,6 +40,7 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
             val feature = homeFeed.features.get(position)
+
 
             holder.view.textView_place_name.text = feature.properties.name
             holder.feature = feature
