@@ -10,8 +10,8 @@ import no.kristiania.assignment_noforeignland.DetailActivity
 import no.kristiania.assignment_noforeignland.R
 import no.kristiania.assignment_noforeignland.models.Feature
 import no.kristiania.assignment_noforeignland.models.HomeFeed
-import no.kristiania.assignment_noforeignland.sqLite.DBHelper
-import no.kristiania.assignment_noforeignland.sqLite.model.Place
+import no.kristiania.assignment_noforeignland.db.DBHelper
+import no.kristiania.assignment_noforeignland.db.model.Place
 
 class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
 

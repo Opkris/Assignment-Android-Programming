@@ -1,4 +1,4 @@
-package no.kristiania.assignment_noforeignland.sqLite.model
+package no.kristiania.assignment_noforeignland.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -9,12 +9,12 @@ import androidx.room.PrimaryKey
 class PlaceEntity {
 
     @PrimaryKey (autoGenerate = true)
-    var placeId: Int =0
+    var placeId: Int = 0
 
     @ColumnInfo(name = "WebId")
-    var placeWebId: String =""
+    var placeWebId: String = ""
 
     @ColumnInfo (name ="PlaceName")
-    var placeName:  String =""
+    var placeName:  String = ""
 
 }

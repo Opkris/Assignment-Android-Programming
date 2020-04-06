@@ -1,4 +1,4 @@
-package no.kristiania.assignment_noforeignland.sqLite.model
+package no.kristiania.assignment_noforeignland.db.model
 
 class Place{
     var id : String? = null

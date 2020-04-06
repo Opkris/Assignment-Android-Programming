@@ -1,11 +1,11 @@
-package no.kristiania.assignment_noforeignland.sqLite
+package no.kristiania.assignment_noforeignland.db
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import no.kristiania.assignment_noforeignland.sqLite.model.Place
+import no.kristiania.assignment_noforeignland.db.model.Place
 import java.lang.RuntimeException
 import kotlin.collections.ArrayList
 

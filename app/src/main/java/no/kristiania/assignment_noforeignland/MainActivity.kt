@@ -9,9 +9,9 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import no.kristiania.assignment_noforeignland.adapters.MainAdapter
 import no.kristiania.assignment_noforeignland.models.HomeFeed
-import no.kristiania.assignment_noforeignland.sqLite.DBHelper
-import no.kristiania.assignment_noforeignland.sqLite.PlaceDB
-import no.kristiania.assignment_noforeignland.sqLite.model.PlaceEntity
+import no.kristiania.assignment_noforeignland.db.DBHelper
+import no.kristiania.assignment_noforeignland.db.PlaceDB
+import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 import okhttp3.*
 import java.io.IOException
 
@@ -48,46 +48,6 @@ class MainActivity : AppCompatActivity() {
 
     }// end AddingPlace
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.main, menu)
-//        val searchItem = menu?.findItem(R.id.menu_search)
-//        if (searchItem != null) {
-//            val searchView = searchItem.actionView as SearchView
-//            searchView.setOnQueryTextListener(object : SearchView.OnCloseListener,
-//                SearchView.OnQueryTextListener {
-//                override fun onQueryTextSubmit(query: String?): Boolean {
-//                    return true
-//                }
-//
-//                override fun onQueryTextChange(newText: String?): Boolean {
-//
-//                    if (newText!!.isNotEmpty()) {
-//                        //clear the list
-//
-//                        val search = newText.toLowerCase()
-//                        //forEach {
-//                        // if(
-//
-//                        // adapter.notifyDataSetChanged()
-//
-//                    } else {
-//                        //clear the list
-//                        // add all the "items" to the list
-//                        // adapter.notifyDataSetChanged()
-//                    }
-//                    return true
-//                }
-//
-//                override fun onClose(): Boolean {
-//                    TODO("Not yet implemented")
-//                }
-//
-//            })
-//        }
-//        return super.onCreateOptionsMenu(menu)
-//
-//    }
-
     fun fetchJson() {
         println("Attempting to Fetch JSON")
 
@@ -107,6 +67,10 @@ class MainActivity : AppCompatActivity() {
                 val gson = GsonBuilder().create()
 
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
+
+                val db= Room.databaseBuilder(applicationContext, PlaceDB::class.java,"ROOM_PLACE.db").build()
+
+
 
                 runOnUiThread {
                     recyclerView_main.adapter =

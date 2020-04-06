@@ -9,8 +9,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row_detail.view.*
 import no.kristiania.assignment_noforeignland.MapsActivity
 import no.kristiania.assignment_noforeignland.R
-import no.kristiania.assignment_noforeignland.models.FromPlaceId
-import no.kristiania.assignment_noforeignland.models.PlaceDetail
+import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
+import no.kristiania.assignment_noforeignland.models.secondModel.Place
 
 class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailCustomViewHolder>() {
 
@@ -66,7 +66,7 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
         holder.place = place
     }
 }
-class DetailCustomViewHolder(val view: View, var place: PlaceDetail? = null): RecyclerView.ViewHolder(view){
+class DetailCustomViewHolder(val view: View, var place: Place? = null): RecyclerView.ViewHolder(view){
 
     companion object{
         val PLACE_NAME_KEY = "PLACE_NAME"

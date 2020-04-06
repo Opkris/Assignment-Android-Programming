@@ -9,15 +9,15 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
 import no.kristiania.assignment_noforeignland.adapters.CustomViewHolder
 import no.kristiania.assignment_noforeignland.adapters.DetailAdapter
-import no.kristiania.assignment_noforeignland.models.FromPlaceId
-import no.kristiania.assignment_noforeignland.sqLite.DBHelper
-import no.kristiania.assignment_noforeignland.sqLite.PlaceDB
-import no.kristiania.assignment_noforeignland.sqLite.model.Place
-import no.kristiania.assignment_noforeignland.sqLite.model.PlaceEntity
+import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
+import no.kristiania.assignment_noforeignland.db.DBHelper
+import no.kristiania.assignment_noforeignland.db.PlaceDB
+import no.kristiania.assignment_noforeignland.db.model.Place
+import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
+import no.kristiania.assignment_noforeignland.models.Properties
 import okhttp3.*
 import java.io.IOException
 
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailActivity : AppCompatActivity(){
 
     val TAG = "DetailActivity"
@@ -38,36 +38,26 @@ class DetailActivity : AppCompatActivity(){
 
         fetchJSON()
 
-//        addingPlace(placeIdWeb, placeNameV)
         val db= Room.databaseBuilder(applicationContext, PlaceDB::class.java,"ROOM_PLACE.db").build()
         //Insert Case
         val thread = Thread {
             var placeEntity = PlaceEntity()
-//            placeEntity.placeId= 1
             placeEntity.placeWebId = placeIdWeb
             placeEntity.placeName = placeNameV
+//            HomeFeed().features[1]
 
             db.placeDao().savePlaces(placeEntity)
 
             //fetch Records
             db.placeDao().getAllPlaces().forEach()
             {
-                Log.i("Fetch Records", "\nId:  : ${it.placeId}" + " Name:  : ${it.placeName}" + " WebId:  : ${it.placeWebId}")
-//                Log.d("Fetch Records", "Name:  : ${it.bookName}")
+                Log.i("Database room", "\nId: ${it.placeId}" + " Name: ${it.placeName}" + " WebId: ${it.placeWebId}")
             }
-        }
+            Log.i("Database room", "\n\n***************************************************************************")
+        }// end thread
         thread.start()
 
     }// end onCreate
-
-//    private fun addingPlace(webId: String, placeName: String) {
-//        db = DBHelper(this)
-//        db.addPlace(webId, placeName)
-//
-//        Log.d("Database", "\nDetailActivity : list from DB: " + db.allPlaces)
-//
-//    }// end AddingPlace
-
 
     fun fetchJSON() {
         val placeId = intent.getLongExtra(CustomViewHolder.FEATURE_ID_KEY,-1)

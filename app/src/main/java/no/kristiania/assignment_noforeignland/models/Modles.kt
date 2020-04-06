@@ -19,19 +19,17 @@ package no.kristiania.assignment_noforeignland.models
 //    }
 //    }
 
-class HomeFeed( val features: Array<Feature>)
-
-class Feature( val properties: Properties)
-
-class Properties( val name: String, val id: Long)
+//class HomeFeed( val features: Array<Feature>)
+//class Feature( val properties: Properties)
+//class Properties( val name: String, val id: Long)
 
 
 
 
 /************** Id site ****************/
-class FromPlaceId(val place: PlaceDetail)
+//class FromPlaceId(val place: PlaceDetail)
 
-class PlaceDetail(val name: String, val comments: String, val banner: String, val lat: Double, val lon: Double)
+//class PlaceDetail(val name: String, val comments: String, val banner: String, val lat: Double, val lon: Double)
 
 //{
 //    "snapshots": [],
