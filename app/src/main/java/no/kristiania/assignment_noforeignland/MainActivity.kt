@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
                 val db= Room.databaseBuilder(applicationContext, PlaceDB::class.java,"ROOM_PLACE.db").build()
 
-              // if we have fetched once we will not fetch again // at this point.
+                // if we have fetched once we will not fetch again // at this point.
                 if(db.placeDao().getAllPlaces().isEmpty()) {
                     //Looping through homeFeed.features list
                     for (x in homeFeed.features.indices) {
