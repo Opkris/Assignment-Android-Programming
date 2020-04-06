@@ -1,6 +1,5 @@
 package no.kristiania.assignment_noforeignland.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +9,17 @@ import androidx.room.Room
 import kotlinx.android.synthetic.main.list_row.view.*
 import no.kristiania.assignment_noforeignland.DetailActivity
 import no.kristiania.assignment_noforeignland.R
+import no.kristiania.assignment_noforeignland.db.PlaceDAO
+import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.models.Feature
 import no.kristiania.assignment_noforeignland.models.HomeFeed
-import no.kristiania.assignment_noforeignland.db.DBHelper
-import no.kristiania.assignment_noforeignland.db.PlaceDB
-import no.kristiania.assignment_noforeignland.db.model.Place
 import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 
 class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
 
     private var TAG = "Main"
+    private var myList = listOf<PlaceEntity>()
+
 
 
         // numberOfItems
@@ -41,23 +41,10 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
 
             val feature = homeFeed.features.get(position)
 
-
             holder.view.textView_place_name.text = feature.properties.name
             holder.feature = feature
 
-//            val webId = feature.properties.id.toString()
-////            Log.d("Database", "trying to list from an array: $lstPlace")
-//            for (name in feature.properties.name){
-//                val place =
-//                    Place()
-//                val name = feature.properties.name
-//                place.name = name
-//                lstPlace.add(place)
-////                Log.d("Database", "\n***********\n$name")
-//            }
-
         }
-
 }
 
     class CustomViewHolder(val view: View, var feature: Feature? = null): RecyclerView.ViewHolder(view) {
@@ -66,8 +53,6 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
             val FEATURE_NAME_KEY = "FEATURE_TITLE"
             val FEATURE_ID_KEY = "FEATURE_ID"
         }
-
-
 
         init {
             view.setOnClickListener {
