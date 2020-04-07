@@ -11,10 +11,12 @@ interface PlaceDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun savePlaces(place: PlaceEntity)
 
-    @Query(value = "Select * from PlaceEntity")
+    @Query(value = "SELECT * FROM PlaceEntity")
     fun getAllPlaces(): List<PlaceEntity>
 
-        @Query(value = "Select * from PlaceEntity where PlaceName Like :search")
-        fun findPlaceWithName(search: String): List<PlaceEntity>
+    @Query(value = "SELECT * FROM PlaceEntity WHERE placeId LIKE :id")
+    fun getPlacesById(id : Long): List<PlaceEntity>
+
+
 
 }

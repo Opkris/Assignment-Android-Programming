@@ -1,24 +1,18 @@
 package no.kristiania.assignment_noforeignland
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
 import no.kristiania.assignment_noforeignland.adapters.CustomViewHolder
 import no.kristiania.assignment_noforeignland.adapters.DetailAdapter
-import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
 import no.kristiania.assignment_noforeignland.db.DBHelper
-import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.db.model.Place
-import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
-import no.kristiania.assignment_noforeignland.models.Feature
-import no.kristiania.assignment_noforeignland.models.Properties
+import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
 import okhttp3.*
 import java.io.IOException
-import kotlin.math.log
 
 class DetailActivity : AppCompatActivity(){
 
@@ -33,7 +27,7 @@ class DetailActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_detail)
-        recyclerView_detail.layoutManager = LinearLayoutManager(this)
+        recyclerView_detail.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
 
         val  navBarTitle = intent.getStringExtra(CustomViewHolder.FEATURE_NAME_KEY)
         supportActionBar?.title = navBarTitle

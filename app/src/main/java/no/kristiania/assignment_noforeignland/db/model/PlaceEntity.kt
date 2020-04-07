@@ -5,16 +5,21 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = [Index(value = ["WebId","PlaceName"], unique = true)])
+@Entity(indices = [Index(value = ["placeName"], unique = true)])
 class PlaceEntity {
 
-    @PrimaryKey (autoGenerate = true)
-    var placeId: Int = 0
 
-    @ColumnInfo(name = "WebId")
-    var placeWebId: String = ""
+    @PrimaryKey (autoGenerate = false)
+    var placeId: Long = 0
 
-    @ColumnInfo (name ="PlaceName")
+    @ColumnInfo (name ="placeName")
     var placeName:  String = ""
+
+     @ColumnInfo (name ="Lon")
+    var placeLon:  Double = 0.0
+
+    @ColumnInfo (name ="Lat")
+    var placeLat:  Double = 0.0
+
 
 }
