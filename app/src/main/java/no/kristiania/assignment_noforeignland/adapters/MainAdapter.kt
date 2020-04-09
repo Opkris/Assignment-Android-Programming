@@ -5,22 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import kotlinx.android.synthetic.main.list_row.view.*
 import no.kristiania.assignment_noforeignland.DetailActivity
 import no.kristiania.assignment_noforeignland.R
-import no.kristiania.assignment_noforeignland.db.PlaceDAO
-import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.models.Feature
 import no.kristiania.assignment_noforeignland.models.HomeFeed
-import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 
 class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHolder>() {
 
     private var TAG = "Main"
-    private var myList = listOf<PlaceEntity>()
-
-
 
         // numberOfItems
         override fun getItemCount(): Int {
@@ -31,10 +24,10 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             // how do we even create a view
             val layoutInflater = LayoutInflater.from(parent.context)
+
             val cellForRow = layoutInflater.inflate(R.layout.list_row, parent, false)
-            return CustomViewHolder(
-                cellForRow
-            )
+
+            return CustomViewHolder(cellForRow)
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
@@ -55,13 +48,14 @@ class MainAdapter(val homeFeed : HomeFeed) : RecyclerView.Adapter<CustomViewHold
         }
 
         init {
+
             view.setOnClickListener {
                 println("test")
 
                 val intent = Intent(view.context, DetailActivity::class.java)
+
                 intent.putExtra(FEATURE_NAME_KEY,feature?.properties?.name)
                 intent.putExtra(FEATURE_ID_KEY, feature?.properties?.id)
-
 
                 view.context.startActivity(intent)
             }

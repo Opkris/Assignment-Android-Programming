@@ -21,5 +21,11 @@ class PlaceEntity {
     @ColumnInfo (name ="Lat")
     var placeLat:  Double = 0.0
 
+    @ColumnInfo (name ="Banner")
+    var placeBanner:  String = ""
+
+    @ColumnInfo (name ="Comment")
+    var placeComment:  String = ""
+
 
 }
