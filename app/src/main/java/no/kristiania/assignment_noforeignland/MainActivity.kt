@@ -2,7 +2,11 @@ package no.kristiania.assignment_noforeignland
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.google.gson.GsonBuilder
@@ -10,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import no.kristiania.assignment_noforeignland.adapters.MainAdapter
 import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
+import no.kristiania.assignment_noforeignland.models.Feature
 import no.kristiania.assignment_noforeignland.models.HomeFeed
 import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
 import okhttp3.*
@@ -18,21 +23,20 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "Main"
+    var adapter: MainAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val db = Room.databaseBuilder(applicationContext, PlaceDB::class.java, "ROOM_PLACE.db").build()
 
-
         setContentView(R.layout.activity_main)
         recyclerView_main.layoutManager = LinearLayoutManager(this)
 
         button_to_db_test.setOnClickListener{
             println("hello World!")
-//            fetchJsonAPITwo(db)
+            fetchJsonAPITwo(db)
         }
-
         fetchJson(db)
 
         /** Testing **/
@@ -41,14 +45,36 @@ class MainActivity : AppCompatActivity() {
 //        updateWithQuery(db)
 //        fetchAllFromDB(db)
 
-
     }// end onCreate
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+
+        val searchItem: MenuItem = menu.findItem(R.id.menu_item_Search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter?.filter?.filter(newText)
+//                adapter?.filter?.filter(newText)
+                return false
+            }
+        })
+        return true
+    }
 
     fun fetchJson(db: PlaceDB) {
         println("Attempting to Fetch JSON")
 
         val url = "https://www.noforeignland.com/home/api/v1/places/"
-//        val urlTwo = "https://www.noforeignland.com/home/api/v1/place?id=$id"
 
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
@@ -65,38 +91,36 @@ class MainActivity : AppCompatActivity() {
                 val gson = GsonBuilder().create()
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
 
-                //*******************************************
-                //*******************************************
-
                 // if we have fetched once we will not fetch again // at this point.
                 if (db.placeDao().getAllPlaces().isEmpty()) {
-                    Log.d("Database", "Storing data to local")
+                    Log.d("Database", "Storing data to local, MainActivity")
 
                     //Looping through homeFeed.features list
-                    for (position in homeFeed.features.indices) {
+//                    for (position in homeFeed.features.indices) {
+                        homeFeed.features.forEach {
 
-                        val feature = homeFeed.features.get(position)
                         val thread = Thread {
-                            var placeEntity = PlaceEntity()
-                            placeEntity.placeId = feature.properties.id
-                            placeEntity.placeName = feature.properties.name
-                            placeEntity.placeLon = feature.geometry.coordinates[0]
-                            placeEntity.placeLat = feature.geometry.coordinates[1]
+                            val placeEntity = PlaceEntity()
+                            placeEntity.placeId = it.properties.id
+                            placeEntity.placeName = it.properties.name
+                            placeEntity.placeLon = it.geometry.coordinates[0]
+                            placeEntity.placeLat = it.geometry.coordinates[1]
 
                             db.placeDao().savePlaces(placeEntity)
 
-                //*******************************************
-                //*******************************************
                         }
                         thread.start()
-                    }// end forloop
+                        }// end forloop
                 }// end if statement
                 else {
-                    Log.d("Database", "Fetching from Local data")
+                    Log.d("Database", "Fetching from Local data, MainActivity")
                 }
-                Log.d("Database", "-------------- Done API 1-------------- ")
+                Log.d("Database", "-------------- Done API 1 main-------------- ")
+
                 runOnUiThread {
-                    recyclerView_main.adapter = MainAdapter(homeFeed)
+                    adapter = MainAdapter(homeFeed, homeFeed.features as MutableList<Feature>)
+                    recyclerView_main.adapter = adapter
+                    adapter!!.notifyDataSetChanged()
                 }
 //                fetchJsonAPITwo(db)
             }
@@ -104,15 +128,13 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request")
             }
-
         })// end client.newCall
     }// end fetchJson
 
     fun fetchAllFromDB(db: PlaceDB) {
 
         val thread = Thread {
-            db.placeDao().getAllPlaces().forEach()
-            {
+            db.placeDao().getAllPlaces().forEach(){
                 Log.i(
                     "Database",
                     "\nId: ${it.placeId}" + " Name: ${it.placeName}" + " Lon: ${it.placeLon}" + " Lat: ${it.placeLat}"
@@ -185,18 +207,14 @@ class MainActivity : AppCompatActivity() {
         thread.start()
     }
 
-    fun fetchJsonAPITwo(db: PlaceDB) {
+    private fun fetchJsonAPITwo(db: PlaceDB) {
 
         Log.d("Database", "inside fetch number two ")
 
         val thread = Thread {
-            for (position in db.placeDao().getAllPlacesId()) {
+            db.placeDao().getAllPlaces().forEach {
 
-
-                var id: Long = 0
-                id = position
-
-                val url = "https://www.noforeignland.com/home/api/v1/place?id=$id"
+                val url = "https://www.noforeignland.com/home/api/v1/place?id=${it.placeId}"
                 val request = Request.Builder().url(url).build()
                 val client = OkHttpClient()
 
@@ -204,25 +222,38 @@ class MainActivity : AppCompatActivity() {
 
                     override fun onResponse(call: Call, response: Response) {
                         val body = response.body?.string()
-                        val gson = GsonBuilder().create()
 
+                        val gson = GsonBuilder().create()
                         val fromPlaceId = gson.fromJson(body, FromPlaceId::class.java)
 
-                        val banner = fromPlaceId.place.banner
-                        val comment = fromPlaceId.place.comments
-
-                        setBanner(db, id, banner)
-                        setComment(db, id, comment)
+                            setBanner(db, it.placeId, fromPlaceId.place.banner)
+                            setComment(db, it.placeId, fromPlaceId.place.comments)
                     }
 
-                override fun onFailure(call: Call, e: IOException) {
-                    println("Something went wrong.....fetchJsonAPITwo")
-                }
-            })
-        }// end for loop
-            Log.d("Database", "-------------- Done API 2-------------- ")
-        }// end thread
+                    override fun onFailure(call: Call, e: IOException) {
+                        println("Something went wrong.....DetailActivity")
+                    }
+                })
+            }
+        }
         thread.start()
+
     }// end fetchJsonAPITwo
+
+
 }
+
+//            val myList = db.placeDao().getAllPlacesIds()
+//            val listSize = myList.size
+//
+//            val firstList = arrayListOf<Long>()
+////                val secondList = arrayListOf<Long>()
+//
+//            for(x in 0..listSize/2){
+//                firstList.add(myList[x])
+//            }
+//            Log.d("Database", firstList.toString())
+//                for(x in listSize/2.. listSize){
+//                    secondList.add(myList[x])
+//                }
 

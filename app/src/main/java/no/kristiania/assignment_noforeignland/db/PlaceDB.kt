@@ -8,23 +8,4 @@ abstract class PlaceDB : RoomDatabase(){
 
     abstract fun placeDao(): PlaceDAO
 
-
-//    companion object{
-//        @Volatile
-//        private var INSTANCE: PlaceDAO? = null
-//
-//        fun getDatabase(context: Context): PlaceDB{
-//            if(INSTANCE == null){
-//                synchronized(this){
-//                    INSTANCE = Room.databaseBuilder(
-//                        context.applicationContext,
-//                        PlaceDAO::class.java,
-//                        "places.db"
-//                    ).build()
-//                }
-//            }
-//            return INSTANCE!!
-//        }
-//    }
-
 }

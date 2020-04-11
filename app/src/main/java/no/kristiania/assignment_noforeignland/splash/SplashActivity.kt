@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         val db = Room.databaseBuilder(applicationContext, PlaceDB::class.java, "ROOM_PLACE.db").build()
-        fetchJson(db)
+//        fetchJson(db)
         Handler().postDelayed({
             // This method will be executed once the timer is over
             startActivity(Intent(this, MainActivity::class.java))
@@ -34,6 +34,9 @@ class SplashActivity : AppCompatActivity() {
             finish()
         }, SPLASH_LOADING_TIME)
     }// end onCreate
+
+
+
     fun fetchJson(db: PlaceDB) {
         println("Attempting to Fetch JSON")
 
@@ -63,15 +66,15 @@ class SplashActivity : AppCompatActivity() {
                     Log.d("Database", "Storing data to local from Splash")
 
                     //Looping through homeFeed.features list
-                    for (position in homeFeed.features.indices) {
+//                    for (position in homeFeed.features.indices) {
+                     homeFeed.features.forEach {
 
-                        val feature = homeFeed.features.get(position)
                         val thread = Thread {
                             var placeEntity = PlaceEntity()
-                            placeEntity.placeId = feature.properties.id
-                            placeEntity.placeName = feature.properties.name
-                            placeEntity.placeLon = feature.geometry.coordinates[0]
-                            placeEntity.placeLat = feature.geometry.coordinates[1]
+                            placeEntity.placeId = it.properties.id
+                            placeEntity.placeName = it.properties.name
+                            placeEntity.placeLon = it.geometry.coordinates[0]
+                            placeEntity.placeLat = it.geometry.coordinates[1]
 
                             db.placeDao().savePlaces(placeEntity)
 
@@ -84,7 +87,8 @@ class SplashActivity : AppCompatActivity() {
                 else {
                     Log.d("Database", "Fetching from Local data #Splash")
                 }
-                Log.d("Database", "-------------- Done API 1-------------- ")
+
+                Log.d("Database", "-------------- Done API 1 Splash-------------- ")
 //                runOnUiThread {
 //                    recyclerView_main.adapter = MainAdapter(homeFeed)
 //                }

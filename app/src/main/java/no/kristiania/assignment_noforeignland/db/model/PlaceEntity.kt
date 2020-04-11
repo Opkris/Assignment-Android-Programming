@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 @Entity(indices = [Index(value = ["placeName"], unique = true)])
 class PlaceEntity {
 
-
     @PrimaryKey (autoGenerate = false)
     var placeId: Long = 0
 

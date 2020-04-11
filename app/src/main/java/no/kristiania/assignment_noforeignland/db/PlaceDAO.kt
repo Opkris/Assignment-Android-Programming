@@ -15,7 +15,7 @@ interface PlaceDAO {
     fun getPlacesById(id : Long): List<PlaceEntity>
 
     @Query(value = "SELECT placeId FROM PlaceEntity")
-    fun getAllPlacesId(): List<Long>
+    fun getAllPlacesIds(): List<Long>
 
 
     // the Update convenience method modifies a set of entities, given as parameters, in the database.
