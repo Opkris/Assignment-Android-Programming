@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -23,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
         val db = Room.databaseBuilder(applicationContext, PlaceDB::class.java, "ROOM_PLACE.db").build()
 
         setContentView(R.layout.activity_detail)
-        recyclerView_detail.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
+        recyclerView_detail.layoutManager = LinearLayoutManager(this)
 
         val navBarTitle = intent.getStringExtra(MainAdapter.CustomViewHolder.FEATURE_NAME_KEY)
         supportActionBar?.title = navBarTitle

@@ -35,7 +35,7 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
 
         // checking if there are eny images/ banners, if not set it to default.
         val url = place.banner
-        val default = "https://i.pinimg.com/originals/53/d2/ac/53d2acad97d3e05ab1ba172124bf727a.jpg"
+        val default = "https://www.fjoddes.net/wp-content/uploads/2019/06/sorry-image.jpg"
         val imageDetailSite = holder.view.imageView_list_row_detail_image
 
         if (url.isEmpty()) {

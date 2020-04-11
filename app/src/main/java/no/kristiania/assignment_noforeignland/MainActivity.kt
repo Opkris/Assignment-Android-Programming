@@ -33,10 +33,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         recyclerView_main.layoutManager = LinearLayoutManager(this)
 
-        button_to_db_test.setOnClickListener{
-            println("hello World!")
-            fetchJsonAPITwo(db)
-        }
         fetchJson(db)
 
         /** Testing **/
@@ -64,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 adapter?.filter?.filter(newText)
-//                adapter?.filter?.filter(newText)
                 return false
             }
         })
@@ -93,13 +88,13 @@ class MainActivity : AppCompatActivity() {
 
                 // if we have fetched once we will not fetch again // at this point.
                 if (db.placeDao().getAllPlaces().isEmpty()) {
-                    Log.d("Database", "Storing data to local, MainActivity")
+                    Log.d("Database", "Storing data to local")
 
                     //Looping through homeFeed.features list
-//                    for (position in homeFeed.features.indices) {
                         homeFeed.features.forEach {
 
                         val thread = Thread {
+                            //Setting values to Database
                             val placeEntity = PlaceEntity()
                             placeEntity.placeId = it.properties.id
                             placeEntity.placeName = it.properties.name
@@ -113,9 +108,9 @@ class MainActivity : AppCompatActivity() {
                         }// end forloop
                 }// end if statement
                 else {
-                    Log.d("Database", "Fetching from Local data, MainActivity")
+                    Log.d("Database", "Fetching from Local data")
                 }
-                Log.d("Database", "-------------- Done API 1 main-------------- ")
+                Log.d("Database", "-------------- Done Fetching API -------------- ")
 
                 runOnUiThread {
                     adapter = MainAdapter(homeFeed, homeFeed.features as MutableList<Feature>)

@@ -23,11 +23,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var lastLocation: Location
     private val TAG = "MapsActivity"
 
-
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +35,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val navBarTitle = intent.getStringExtra(DetailCustomViewHolder.PLACE_NAME_KEY)
+        supportActionBar?.title = navBarTitle
 
     }
 
