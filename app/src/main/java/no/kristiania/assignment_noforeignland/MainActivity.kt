@@ -19,6 +19,8 @@ import no.kristiania.assignment_noforeignland.models.HomeFeed
 import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
 import okhttp3.*
 import java.io.IOException
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         recyclerView_main.layoutManager = LinearLayoutManager(this)
+        supportActionBar?.title = "NOFOREIGNLAND"
+        val currentTime: Date = Calendar.getInstance().time
+
+        println("****************\n\n $currentTime")
 
         fetchJson(db)
 
@@ -126,6 +132,20 @@ class MainActivity : AppCompatActivity() {
         })// end client.newCall
     }// end fetchJson
 
+    private fun setBanner(db: PlaceDB, id: Long, newBanner: String) {
+        val thread = Thread {
+            db.placeDao().updatePlaceBanner(id, newBanner)
+        }
+        thread.start()
+    }
+
+    private fun setComment(db: PlaceDB, id: Long, newComment: String) {
+        val thread = Thread {
+            db.placeDao().updatePlaceComment(id, newComment)
+        }
+        thread.start()
+    }
+
     fun fetchAllFromDB(db: PlaceDB) {
 
         val thread = Thread {
@@ -188,20 +208,6 @@ class MainActivity : AppCompatActivity() {
         thread.start()
     }
 
-    private fun setBanner(db: PlaceDB, id: Long, newBanner: String) {
-        val thread = Thread {
-            db.placeDao().updatePlaceBanner(id, newBanner)
-        }
-        thread.start()
-    }
-
-    private fun setComment(db: PlaceDB, id: Long, newComment: String) {
-        val thread = Thread {
-            db.placeDao().updatePlaceComment(id, newComment)
-        }
-        thread.start()
-    }
-
     private fun fetchJsonAPITwo(db: PlaceDB) {
 
         Log.d("Database", "inside fetch number two ")
@@ -238,17 +244,4 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-//            val myList = db.placeDao().getAllPlacesIds()
-//            val listSize = myList.size
-//
-//            val firstList = arrayListOf<Long>()
-////                val secondList = arrayListOf<Long>()
-//
-//            for(x in 0..listSize/2){
-//                firstList.add(myList[x])
-//            }
-//            Log.d("Database", firstList.toString())
-//                for(x in listSize/2.. listSize){
-//                    secondList.add(myList[x])
-//                }
 

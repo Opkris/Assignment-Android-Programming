@@ -17,7 +17,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-//        fetchJson(db)
         Handler().postDelayed({
             // This method will be executed once the timer is over
             startActivity(Intent(this, MainActivity::class.java))

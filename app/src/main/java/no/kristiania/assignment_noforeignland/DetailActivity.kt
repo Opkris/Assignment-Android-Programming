@@ -68,6 +68,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                 })
     }// end FetchJSON
+
     private fun setBanner(db: PlaceDB, id: Long, newBanner: String) {
         val thread = Thread {
             db.placeDao().updatePlaceBanner(id, newBanner)
