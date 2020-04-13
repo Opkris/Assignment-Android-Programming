@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.list_row_detail.view.*
+import kotlinx.android.synthetic.main.list_details.view.*
 import no.kristiania.assignment_noforeignland.MapsActivity
 import no.kristiania.assignment_noforeignland.R
 import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
@@ -24,7 +24,7 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailCustomViewHolder {
         // how do we even create a view
         val layoutInflater = LayoutInflater.from(parent.context)
-        val cellForRow = layoutInflater.inflate(R.layout.list_row_detail, parent, false)
+        val cellForRow = layoutInflater.inflate(R.layout.list_details, parent, false)
         return DetailCustomViewHolder(
             cellForRow
         )

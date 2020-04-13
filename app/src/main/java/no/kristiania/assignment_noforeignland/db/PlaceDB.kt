@@ -7,5 +7,4 @@ import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 abstract class PlaceDB : RoomDatabase(){
 
     abstract fun placeDao(): PlaceDAO
-
 }

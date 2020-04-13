@@ -39,4 +39,13 @@
         android:layout_marginTop="20dp"
         android:indeterminateTint="@color/black" />
 
+    <TextView
+        android:id="@+id/textView_creator"
+        android:gravity="center"
+        android:layout_below="@id/progressBar"
+        android:padding="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Created by Candidate nr: 409" />
+
 </LinearLayout>
