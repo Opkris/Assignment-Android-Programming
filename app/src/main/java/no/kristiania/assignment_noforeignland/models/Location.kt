@@ -1,7 +1,6 @@
 package no.kristiania.assignment_noforeignland.models
 
-
-data class HomeFeed(
+data class Location(
     val features: List<Feature>,
     val type: String
 )

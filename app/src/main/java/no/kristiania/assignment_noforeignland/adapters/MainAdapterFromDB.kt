@@ -12,17 +12,16 @@ import kotlinx.android.synthetic.main.list_row.view.*
 import no.kristiania.assignment_noforeignland.DetailActivity
 import no.kristiania.assignment_noforeignland.MapsActivity
 import no.kristiania.assignment_noforeignland.R
+import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 import no.kristiania.assignment_noforeignland.models.Feature
-import no.kristiania.assignment_noforeignland.models.Location
 import no.kristiania.assignment_noforeignland.models.secondModel.Place
 
-class MainAdapter(
-    places: Location,
-    private var ListPlaces: MutableList<Feature> = mutableListOf()
-)    : RecyclerView.Adapter<MainAdapter.CustomViewHolder?>(), Filterable {
+class MainAdapterFromDB(
+    private var ListPlaces: MutableList<PlaceEntity> = mutableListOf()
+)    : RecyclerView.Adapter<MainAdapterFromDB.CustomViewHolder?>(), Filterable {
 
     private var TAG = "MainAdapter"
-    private var ListToShow: MutableList<Feature> = mutableListOf()
+    private var ListToShow: MutableList<PlaceEntity> = mutableListOf()
 
     init {
         ListToShow = ListPlaces
@@ -46,12 +45,12 @@ class MainAdapter(
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val feature = ListToShow[position]
 
-        holder.view.textView_place_name.text = feature.properties.name
+        holder.view.textView_place_name.text = feature.placeName
 
 
-        val placeName = feature.properties.name
-        val placeLon = feature.geometry.coordinates[0]
-        val placeLat = feature.geometry.coordinates[1]
+        val placeName = feature.placeName
+        val placeLon = feature.placeLon
+        val placeLat = feature.placeLat
 
         holder.view.imageView_navigation_link.setOnClickListener {
             println("Hello From navigation Link")
@@ -73,7 +72,7 @@ class MainAdapter(
         view.context.startActivity(intent)
     }
 
-    class CustomViewHolder(val view: View, var feature: Feature? = null) :
+    class CustomViewHolder(val view: View, var feature: PlaceEntity? = null) :
         RecyclerView.ViewHolder(view) {
         companion object {
             val FEATURE_NAME_KEY = "FEATURE_TITLE"
@@ -88,34 +87,13 @@ class MainAdapter(
 
                 val intent = Intent(view.context, DetailActivity::class.java)
 
-                intent.putExtra(FEATURE_NAME_KEY, feature?.properties?.name)
-                intent.putExtra(FEATURE_ID_KEY, feature?.properties?.id)
+                intent.putExtra(FEATURE_NAME_KEY, feature?.placeName)
+                intent.putExtra(FEATURE_ID_KEY, feature?.placeId)
 
                 view.context.startActivity(intent)
             }
         }
     }// end CustomViewHolder
-
-    class DetailCustomViewHolder(val view: View, var place: Place? = null): RecyclerView.ViewHolder(view){
-
-        companion object{
-            val PLACE_NAME_KEY = "PLACE_NAME"
-            val PLACE_LON_KEY = "PLACE_LON"
-            val PLACE_LAT_KEY = "PLACE_LAT"
-        }
-        init {
-            view.setOnClickListener {
-
-                val intent = Intent(view.context, MapsActivity::class.java)
-
-                intent.putExtra(PLACE_NAME_KEY, place?.name)
-                intent.putExtra(PLACE_LON_KEY,place?.lon)
-                intent.putExtra(PLACE_LAT_KEY, place?.lat)
-
-                view.context.startActivity(intent)
-            }
-        }
-    }
 
     override fun getFilter(): Filter {
         return placeFilter
@@ -123,17 +101,17 @@ class MainAdapter(
 
     private val placeFilter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults? {
-            var aFilteredList: MutableList<Feature>
+            var aFilteredList: MutableList<PlaceEntity>
             if (constraint == null || constraint.isEmpty()) {
                 aFilteredList = ListPlaces
 
             } else {
                 aFilteredList = ListPlaces.filter {
-                    it.properties.name.contains(
+                    it.placeName.contains(
                         constraint.toString(),
                         ignoreCase = true
                     )
-                } as MutableList<Feature>
+                } as MutableList<PlaceEntity>
 
                 Log.d(TAG, "$aFilteredList")
 
@@ -150,7 +128,7 @@ class MainAdapter(
 
             results?.values.let {
                 try {
-                    ListToShow = it as MutableList<Feature>
+                    ListToShow = it as MutableList<PlaceEntity>
                 } catch (e: TypeCastException) {
                     println(e)
                 }

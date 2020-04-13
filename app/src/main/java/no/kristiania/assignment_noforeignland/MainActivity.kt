@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
-import no.kristiania.assignment_noforeignland.adapters.MainAdapter
+import no.kristiania.assignment_noforeignland.adapters.MainAdapterFromDB
 import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 import no.kristiania.assignment_noforeignland.models.Feature
-import no.kristiania.assignment_noforeignland.models.HomeFeed
+import no.kristiania.assignment_noforeignland.models.Location
 import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
 import okhttp3.*
 import java.io.IOException
@@ -25,7 +25,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "Main"
-    var adapter: MainAdapter? = null
+    //var adapter: MainAdapter? = null
+    var adapter: MainAdapterFromDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,14 +91,14 @@ class MainActivity : AppCompatActivity() {
 //                println("from Json Body: \n $body ")
 
                 val gson = GsonBuilder().create()
-                val homeFeed = gson.fromJson(body, HomeFeed::class.java)
+                val locations = gson.fromJson(body, Location::class.java)
 
                 // if we have fetched once we will not fetch again // at this point.
                 if (db.placeDao().getAllPlaces().isEmpty()) {
                     Log.d("Database", "Storing data to local")
 
                     //Looping through homeFeed.features list
-                        homeFeed.features.forEach {
+                        locations.features.forEach {
 
                         val thread = Thread {
                             //Setting values to Database
@@ -115,22 +116,36 @@ class MainActivity : AppCompatActivity() {
                 }// end if statement
                 else {
                     Log.d("Database", "Fetching from Local data")
+
                 }
                 Log.d("Database", "-------------- Done Fetching API -------------- ")
 
+
+                val test = db.placeDao().getAllPlaces()
                 runOnUiThread {
-                    adapter = MainAdapter(homeFeed, homeFeed.features as MutableList<Feature>)
-                    recyclerView_main.adapter = adapter
+//                    adapter = MainAdapter(locations, locations.features as MutableList<Feature>)
+                    adapter = MainAdapterFromDB( test as MutableList<PlaceEntity>)
+                   recyclerView_main.adapter = adapter
                     adapter!!.notifyDataSetChanged()
                 }
-//                fetchJsonAPITwo(db)
+
             }
 
             override fun onFailure(call: Call, e: IOException) {
                 println("Failed to execute request")
+                val test = db.placeDao().getAllPlaces()
+                runOnUiThread {
+//                    adapter = MainAdapter(locations, locations.features as MutableList<Feature>)
+                    adapter = MainAdapterFromDB( test as MutableList<PlaceEntity>)
+                    recyclerView_main.adapter = adapter
+                    adapter!!.notifyDataSetChanged()
+                }
             }
         })// end client.newCall
     }// end fetchJson
+
+
+  
 
     private fun setBanner(db: PlaceDB, id: Long, newBanner: String) {
         val thread = Thread {
