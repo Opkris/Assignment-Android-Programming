@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import no.kristiania.assignment_noforeignland.adapters.MainAdapter
 import no.kristiania.assignment_noforeignland.db.PlaceDB
@@ -17,8 +18,8 @@ import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "Main"
-
     var adapter: MainAdapter? = null
+    private lateinit var swipeLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,14 @@ class MainActivity : AppCompatActivity() {
 
         renderLocations(listOfLocations)
 
-    }// end onCreate
+        // Swipe Widget
+        swipeLayout = findViewById(R.id.swipeContainer)
+        swipeLayout.setOnRefreshListener {
+            println("hello World Swipe")
+            renderLocations(listOfLocations)
+            swipeLayout.isRefreshing = false
+        }
+        }// end onCreate
 
     private fun renderLocations(listOfLocations: List<PlaceEntity>) {
         Log.d(TAG, "getting all Locations")
@@ -66,5 +74,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 }
+
 
 

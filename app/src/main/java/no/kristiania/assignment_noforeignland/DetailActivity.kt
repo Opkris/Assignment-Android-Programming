@@ -56,7 +56,11 @@ class DetailActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call, e: IOException) {
-                    println("Something went wrong.....DetailActivity")
+                    Log.d(TAG, "Failed to execute request")
+
+                    val message = "Sorry\n this information is not available at this point" +
+                            "\n\nhave you checked your internet connection?"
+                    textView_error_message_detail.text = message
 
                 }
             })

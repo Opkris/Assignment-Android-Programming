@@ -7,10 +7,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.activity_main.*
 import no.kristiania.assignment_noforeignland.MainActivity
 import no.kristiania.assignment_noforeignland.R
-import no.kristiania.assignment_noforeignland.adapters.MainAdapter
 import no.kristiania.assignment_noforeignland.db.PlaceDB
 import no.kristiania.assignment_noforeignland.db.model.PlaceEntity
 import no.kristiania.assignment_noforeignland.models.Location
@@ -19,26 +17,32 @@ import java.io.IOException
 
 class SplashActivity : AppCompatActivity() {
 
+    private var isFetchDone = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val db = Room.databaseBuilder(applicationContext, PlaceDB::class.java, "ROOM_PLACE.db").allowMainThreadQueries().build()
+//        .allowMainThreadQueries()
+        val db = Room.databaseBuilder(applicationContext, PlaceDB::class.java, "ROOM_PLACE.db").build()
         fetchJson(db)
+        println("******************* $isFetchDone")
 
         // create the loading time of the "splash"
-        val SPLASH_LOADING_TIME:Long = 3000 // 3.0 seconds
+        if (isFetchDone) {
+            val SPLASH_LOADING_TIME: Long = 3000 // 3.0 seconds
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_splash)
 
-        Handler().postDelayed({
-            // This method will be executed once the timer is over
-            startActivity(Intent(this, MainActivity::class.java))
-            // close this activity
-            finish()
-        }, SPLASH_LOADING_TIME)
+            Handler().postDelayed({
+                // This method will be executed once the timer is over
+                startActivity(Intent(this, MainActivity::class.java))
+                // close this activity
+                finish()
+            }, SPLASH_LOADING_TIME)
+        }
     }// end onCreate
 
-    fun fetchJson(db: PlaceDB) {
+    fun fetchJson(db: PlaceDB): Boolean {
         println("Attempting to Fetch JSON")
 
         val url = "https://www.noforeignland.com/home/api/v1/places/"
@@ -87,6 +91,9 @@ class SplashActivity : AppCompatActivity() {
                 println("Failed to execute request")
             }
         })// end client.newCall
+
+        this.isFetchDone = true
+        return this.isFetchDone
     }// end fetchJson
 
 }

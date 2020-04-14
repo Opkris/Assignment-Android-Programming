@@ -4,13 +4,16 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_detail.view.*
 import kotlinx.android.synthetic.main.list_details.view.*
 import no.kristiania.assignment_noforeignland.MapsActivity
 import no.kristiania.assignment_noforeignland.R
 import no.kristiania.assignment_noforeignland.models.secondModel.FromPlaceId
 import no.kristiania.assignment_noforeignland.models.secondModel.Place
+import java.lang.IllegalStateException
 
 class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<DetailCustomViewHolder>() {
 
@@ -35,11 +38,11 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
 
         // checking if there are eny images/ banners, if not set it to default.
         val url = place.banner
-        val default = "https://www.fjoddes.net/wp-content/uploads/2019/06/sorry-image.jpg"
+        val defaultImage = R.drawable.lmage_not_available
         val imageDetailSite = holder.view.imageView_list_row_detail_image
 
         if (url.isEmpty()) {
-            Picasso.get().load(default).into(imageDetailSite)
+            Picasso.get().load(defaultImage).into(imageDetailSite)
         } else{
             Picasso.get().load(url).into(imageDetailSite)
         }
@@ -48,15 +51,13 @@ class DetailAdapter(val fromPlaceId : FromPlaceId) : RecyclerView.Adapter<Detail
         holder.view.textView_list_row_detail_lon.text = "lon: " + place.lon.toString()
         holder.view.textView_list_row_detail_name.text = place.name
 
+
+
         //Check if there are eny comments, if not, set a default text
         val defaultString = " No comment has been received"
-        val comment = place.comments
-            .replace("<p>", "")
-            .replace("</p>", "")
-            .replace("<br/>", "")
-            .replace("<br>", "")
-            .replace("<b>", "")
-            .replace("</b>", "")
+
+        // remove html tags
+        val comment = place.comments.trim().replace(" +"," ").parseAsHtml()
 
         if(comment.isEmpty()){
             holder.view.textView_list_row_detail_comments.text = defaultString

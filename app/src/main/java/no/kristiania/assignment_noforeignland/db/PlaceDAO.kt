@@ -14,4 +14,7 @@ interface PlaceDAO {
     @Query(value = "SELECT * FROM PlaceEntity WHERE Id LIKE :id")
     fun getPlaceById(id : Long): List<PlaceEntity>
 
+    @Delete
+    fun deleteDatabase(place: PlaceEntity)
+
 }
