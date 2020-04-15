@@ -21,7 +21,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-//        .allowMainThreadQueries()
         val db = Room.databaseBuilder(applicationContext, PlaceDB::class.java, "ROOM_PLACE.db").build()
         fetchJson(db)
         println("******************* $isFetchDone")
